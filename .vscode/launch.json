@@ -1,0 +1,49 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug dev build windows",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}\\src\\index.ts",
+            "smartStep": true,
+            "sourceMaps": true,
+            "outFiles": [
+                "${workspaceRoot}\\dev\\*.js"
+            ]
+        },
+        {
+            "name": "Debug dev build linux",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}//src//index.ts",
+            "smartStep": true,
+            "sourceMaps": true,
+            "outFiles": [
+                "${workspaceRoot}//dev//*.js"
+            ]
+        },
+        {
+            "name": "Debug production build windows",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}\\src\\index.ts",
+            "smartStep": true,
+            "sourceMaps": true,
+            "outFiles": [
+                "${workspaceRoot}\\dist\\*.js"
+            ]
+        },
+        {
+            "name": "Debug production build linux",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}//src//index.ts",
+            "smartStep": true,
+            "sourceMaps": true,
+            "outFiles": [
+                "${workspaceRoot}//dist//*.js"
+            ]
+        }
+    ]
+}

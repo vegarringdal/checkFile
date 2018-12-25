@@ -1,0 +1,8 @@
+/.idea
+/node_modules
+dist
+/dist
+dev
+/dev
+mydb.sqlite
+data.csv
