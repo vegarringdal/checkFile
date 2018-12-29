@@ -1,6 +1,8 @@
 import { readFile, consoleLog } from './utils';
 import { columnSetup } from './columnSetup';
 import * as path from 'path';
+import * as papa from 'papaparse';
+
 
 
 export const extractFileData = (filePath: string): Promise<any[]> => {
@@ -9,22 +11,16 @@ export const extractFileData = (filePath: string): Promise<any[]> => {
 
         readFile(path.resolve(filePath)).then((fileData: string) => {
 
-            const fileLines = fileData.split('\n');
+            const result = papa.parse(fileData);
+            const fileLines = result.data;
             if (fileLines.length === 0) {
                 consoleLog('error', `rows found:${fileLines.length}`);
             }
 
 
-            const semiSignTest = fileLines[0].split(',');
-            const semiColonSignTest = fileLines[0].split(';');
-            let columnSeperator = ';';
-            if (semiSignTest.length > semiColonSignTest.length) {
-                columnSeperator = ',';
-            }
-
-
-            const headerColumns = fileLines[0].split(columnSeperator);
-            headerColumns.forEach((column, i) => {
+            let headerColumns = fileLines[0];
+            headerColumns = headerColumns;
+            headerColumns.forEach((column: any, i: number) => {
                 columnSetup.forEach((obj) => {
                     if (obj.file === column) {
                         obj.rowColumn = i;
@@ -36,10 +32,12 @@ export const extractFileData = (filePath: string): Promise<any[]> => {
             const importData: any[] = [];
             for (let u = 1; u < fileLines.length; u++) {
                 const data: any = {};
-                const columnsRow = fileLines[u].split(columnSeperator);
+                let columnsRow = fileLines[u];
+                columnsRow = columnsRow;
                 columnSetup.forEach((obj) => {
-                    if (obj.rowColumn > -1) {
+                    if (obj.rowColumn > -1 && columnsRow) {
                         data[obj.db] = columnsRow[obj.rowColumn] === '' ? null : columnsRow[obj.rowColumn];
+
                     }
                 });
                 importData.push(data);

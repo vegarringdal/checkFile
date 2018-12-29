@@ -4,18 +4,17 @@
   "description": "checkfile",
   "main": "src/index.js",
   "author": "vegar ringdal (vegar.ringdal@gmail.com)",
-  "license": "private! do not use",
+  "license": "DO NOT USE! PRIVATE!! ",
   "bugs": {
-    "url": "https://github.com/vegarringdal/checkfile/issues"
+    "url": "https://github.com/vegarringdal/checkFile/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vegarringdal/checkfile.git"
+    "url": "git+https://github.com/vegarringdal/checkFile.git"
   },
   "scripts": {
-    "run": "node ./dev/index",
-    "watch": "node ./scripts/watch",
-    "build": "node ./scripts/build"
+    "start": "node ./dist/index",
+    "watch": "node ./scripts/watch"
   },
   "homepage": "https://github.com/vegarringdal",
   "keywords": [
@@ -29,11 +28,13 @@
     "fuse-box-typechecker": "^2.11.0",
     "tslib": "^1.9.3",
     "tslint": "^5.12.0",
-    "typescript": "^3.2.2",
-    "knex": "^0.16.3"
+    "typescript": "^3.2.2"
   },
   "dependencies": {
     "@types/node": "^10.12.18",
+    "exceljs": "^1.6.3",
+    "papaparse": "^4.6.2",
+    "knex": "^0.16.3",
     "sqlite3": "^4.0.4"
   }
 }

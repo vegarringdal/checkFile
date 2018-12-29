@@ -1,37 +1,14 @@
-# node-typescript-skeleton
+# checkFile
 
-Simple skeleton using fuse-box-typechecker for linting/type checking +  emitting files
+Helper for making reports
 
-
-## How to get started
-
-* run `git clone https://github.com/vegarringdal/node-typescript-skeleton`
+* run `git clone https://github.com/vegarringdal/checkFile`
 * run `npm install`
 
-Now you have 2 options
-1. run `node watch`
+### 2 options
+* developement `npm run watch`
+* running script  `npm run start`
 
-This uses the tsconfig.dev.json and emits to 'dev' folder.
+### PS!
+* needs `data.cvs` added to fiolderw irt correct headers
 
-
-2. run `node build`
-
-This uses the tsconfig.json and emits to 'dist' folder.
-
-
-## debug (vscode)
-
-2 launch settings are included.
-
-* 1 for dev build 
-* 1 for production build
-
-
-### hardware/software info used when I made this
-* windows 10 64bit, vmware
-* node version 9.3.0
-* npm 5.5.1
-
-
-### output sample when there is errors:
-![Output sample](https://github.com/vegarringdal/node-typescript-skeleton/raw/master/.image/output.png "Output sample")

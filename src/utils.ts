@@ -16,7 +16,7 @@ export const renameFolder = (oldPath: string, newPath: string) => {
     });
 };
 
-export const readFile = (file: string) => {
+export const readFile = (file: string): Promise<string> => {
     return new Promise((resolve, reject) => {
         fs.readFile(path.resolve(file), 'UTF8', (err: any, data: any) => {
             if (err) {

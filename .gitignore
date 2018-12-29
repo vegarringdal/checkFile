@@ -6,3 +6,4 @@ dev
 /dev
 mydb.sqlite
 data.csv
+streamed-workbook.xlsx

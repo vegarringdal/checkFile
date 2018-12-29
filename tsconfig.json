@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": "src/",
-    "outDir": "dev/",
+    "outDir": "dist/",
     "sourceMap": true,
     "target": "es5",
     "module": "commonjs",
@@ -21,11 +21,6 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "baseUrl": "./",
-    "paths": {
-      "myalias": [
-        "./src/myalias"
-      ]
-    },
     "lib": [
       "es2017"
     ]
