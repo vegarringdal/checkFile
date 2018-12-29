@@ -39,10 +39,8 @@ var extractFileData_1 = require("./extractFileData");
 var dbUtils_1 = require("./dbUtils");
 var Excel = require("exceljs");
 var utils_1 = require("./utils");
-var path = require("path");
 var run = function () { return __awaiter(_this, void 0, void 0, function () {
-    var tablename, knex, data, options, workbook, createSheet, err_1;
-    var _this = this;
+    var tablename, knex, data, options, workbook, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -61,50 +59,16 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                     filename: './streamed-workbook.xlsx'
                 };
                 workbook = new Excel.stream.xlsx.WorkbookWriter(options);
-                createSheet = function (sheetName, sqlfile, workbook) { return __awaiter(_this, void 0, void 0, function () {
-                    var worksheet_1, sqltext, result, columns, k, err_2;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                _a.trys.push([0, 3, , 4]);
-                                worksheet_1 = workbook.addWorksheet(sheetName);
-                                return [4, utils_1.readFile((path.resolve(sqlfile)))];
-                            case 1:
-                                sqltext = _a.sent();
-                                return [4, knex.raw(sqltext)];
-                            case 2:
-                                result = _a.sent();
-                                columns = [];
-                                for (k in result[0]) {
-                                    if (result[0] && result[0][k] !== undefined) {
-                                        columns.push({ header: k, key: k, width: 10 });
-                                    }
-                                }
-                                worksheet_1.columns = columns;
-                                result.forEach(function (element) {
-                                    worksheet_1.addRow(element);
-                                });
-                                worksheet_1.commit();
-                                utils_1.consoleLog('green', 'worksheet created:' + sheetName);
-                                return [3, 4];
-                            case 3:
-                                err_2 = _a.sent();
-                                utils_1.consoleError(err_2);
-                                return [3, 4];
-                            case 4: return [2];
-                        }
-                    });
-                }); };
-                return [4, createSheet('Status', './sql/status_be.sql', workbook)];
+                return [4, dbUtils_1.queryAndCreateSheet('Status', './sql/status_be.sql', workbook, knex)];
             case 4:
                 _a.sent();
-                return [4, createSheet('A & B missing cable type', './sql/code_AB_BE_missingtype.sql', workbook)];
+                return [4, dbUtils_1.queryAndCreateSheet('A & B missing cable type', './sql/code_AB_BE_missingtype.sql', workbook, knex)];
             case 5:
                 _a.sent();
-                return [4, createSheet('A & B cable summary', './sql/cabletypes_BE.sql', workbook)];
+                return [4, dbUtils_1.queryAndCreateSheet('A & B cable summary', './sql/cabletypes_BE.sql', workbook, knex)];
             case 6:
                 _a.sent();
-                return [4, createSheet('All errors', './sql/report_cables.sql', workbook)];
+                return [4, dbUtils_1.queryAndCreateSheet('All errors', './sql/report_cables.sql', workbook, knex)];
             case 7:
                 _a.sent();
                 _a.label = 8;

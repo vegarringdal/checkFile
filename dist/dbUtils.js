@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var columnSetup_1 = require("./columnSetup");
 var utils_1 = require("./utils");
 var client = require("knex");
+var path = require("path");
 exports.createSqlite = function (filename) {
     var knex = client({
         client: 'sqlite3',
@@ -62,7 +63,7 @@ exports.importData = function (knex, tablename, data) {
                         })];
                 case 1:
                     _a.sent();
-                    utils_1.consoleLog('yellow', 'data imported:' + tablename);
+                    utils_1.consoleLog('green', 'data imported:' + tablename);
                     resolve();
                     return [3, 3];
                 case 2:
@@ -93,13 +94,13 @@ exports.generateTable = function (knex, tablename) {
                         })];
                 case 2:
                     _a.sent();
-                    utils_1.consoleLog('yellow', 'table created:' + tablename);
+                    utils_1.consoleLog('green', 'table created:' + tablename);
                     resolve();
                     return [3, 5];
                 case 3: return [4, knex(tablename).truncate()];
                 case 4:
                     _a.sent();
-                    utils_1.consoleLog('yellow', 'table cleared:' + tablename);
+                    utils_1.consoleLog('green', 'table cleared:' + tablename);
                     resolve();
                     _a.label = 5;
                 case 5: return [3, 7];
@@ -112,4 +113,38 @@ exports.generateTable = function (knex, tablename) {
         });
     }); });
 };
+exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex) { return __awaiter(_this, void 0, void 0, function () {
+    var worksheet_1, sqltext, result, columns, k, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                worksheet_1 = workbook.addWorksheet(sheetName);
+                return [4, utils_1.readFile((path.resolve(sqlfile)))];
+            case 1:
+                sqltext = _a.sent();
+                return [4, knex.raw(sqltext)];
+            case 2:
+                result = _a.sent();
+                columns = [];
+                for (k in result[0]) {
+                    if (result[0] && result[0][k] !== undefined) {
+                        columns.push({ header: k, key: k, width: 10 });
+                    }
+                }
+                worksheet_1.columns = columns;
+                result.forEach(function (element) {
+                    worksheet_1.addRow(element);
+                });
+                worksheet_1.commit();
+                utils_1.consoleLog('green', 'worksheet created:' + sheetName);
+                return [3, 4];
+            case 3:
+                err_3 = _a.sent();
+                utils_1.consoleError(err_3);
+                return [3, 4];
+            case 4: return [2];
+        }
+    });
+}); };
 //# sourceMappingURL=dbUtils.js.map

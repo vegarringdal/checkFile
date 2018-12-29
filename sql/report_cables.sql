@@ -5,7 +5,10 @@ select
     ifnull(tag_cabletype, '???') as tag_cabletype,
     ifnull(tag_segregation, '???') as tag_segregation,
     ifnull(tag_discipline, '???') as tag_discipline,
-    ifnull(tag_eng_code, '???') as tag_eng_code,
+        CASE (tag_eng_code)
+		WHEN "E" THEN "E-???"
+  		ELSE tag_eng_code
+  		END as tag_eng_code,
     ifnull(tag_contractor, '???') as tag_contractor,
     ifnull(tag_cable_length, '???') as tag_cable_length,
     ifnull(tag_description, '') as tag_description,
