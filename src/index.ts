@@ -23,10 +23,29 @@ const run = async () => {
     };
     const workbook = new Excel.stream.xlsx.WorkbookWriter(options);
 
-    await queryAndCreateSheet('Status', './sql/status_be.sql', workbook, knex);
-    await queryAndCreateSheet('A & B missing cable type', './sql/code_AB_BE_missingtype.sql', workbook, knex);
-    await queryAndCreateSheet('A & B cable summary', './sql/cabletypes_BE.sql', workbook, knex);
-    await queryAndCreateSheet('All errors', './sql/report_cables.sql', workbook, knex);
+    await queryAndCreateSheet(
+        'Status',
+        './sql/status_be.sql',
+        workbook,
+        knex);
+
+    await queryAndCreateSheet(
+        'A & B missing cable type',
+        './sql/code_AB_BE_missingtype.sql',
+        workbook,
+        knex);
+
+    await queryAndCreateSheet(
+        'A & B cable summary',
+        './sql/cabletypes_BE.sql',
+        workbook,
+        knex);
+
+    await queryAndCreateSheet(
+        'All errors',
+        './sql/report_cables.sql',
+        workbook,
+        knex);
 
     try {
         await workbook.commit();
