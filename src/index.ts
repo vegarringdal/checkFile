@@ -43,7 +43,7 @@ const run = async () => {
 
 
             worksheet.commit();
-            consoleLog('yellow', 'worksheet created:' + sheetName);
+            consoleLog('green', 'worksheet created:' + sheetName);
         } catch (err) {
             consoleError(err);
         }
@@ -61,7 +61,7 @@ const run = async () => {
         consoleError(err);
     }
 
-    consoleLog('yellow', 'workbook updated');
+    consoleLog('green', 'workbook updated');
     process.exit();
 
 };

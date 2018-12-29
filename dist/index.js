@@ -85,7 +85,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                                     worksheet_1.addRow(element);
                                 });
                                 worksheet_1.commit();
-                                utils_1.consoleLog('yellow', 'worksheet created:' + sheetName);
+                                utils_1.consoleLog('green', 'worksheet created:' + sheetName);
                                 return [3, 4];
                             case 3:
                                 err_2 = _a.sent();
@@ -119,7 +119,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                 utils_1.consoleError(err_1);
                 return [3, 11];
             case 11:
-                utils_1.consoleLog('yellow', 'workbook updated');
+                utils_1.consoleLog('green', 'workbook updated');
                 process.exit();
                 return [2];
         }
