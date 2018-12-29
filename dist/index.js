@@ -40,85 +40,90 @@ var dbUtils_1 = require("./dbUtils");
 var Excel = require("exceljs");
 var utils_1 = require("./utils");
 var path = require("path");
-try {
-    var run = function () { return __awaiter(_this, void 0, void 0, function () {
-        var tablename, knex, data, options, workbook, createSheet;
-        var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    tablename = 'tags';
-                    knex = dbUtils_1.createSqlite('./mydb.sqlite');
-                    return [4, dbUtils_1.generateTable(knex, tablename)];
-                case 1:
-                    _a.sent();
-                    return [4, extractFileData_1.extractFileData('./data.csv')];
-                case 2:
-                    data = _a.sent();
-                    return [4, dbUtils_1.importData(knex, tablename, data)];
-                case 3:
-                    _a.sent();
-                    options = {
-                        filename: './streamed-workbook.xlsx'
-                    };
-                    workbook = new Excel.stream.xlsx.WorkbookWriter(options);
-                    createSheet = function (sheetName, sqlfile, workbook) { return __awaiter(_this, void 0, void 0, function () {
-                        var worksheet_1, sqltext, result, columns, k, err_1;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    _a.trys.push([0, 3, , 4]);
-                                    worksheet_1 = workbook.addWorksheet(sheetName);
-                                    return [4, utils_1.readFile((path.resolve(sqlfile)))];
-                                case 1:
-                                    sqltext = _a.sent();
-                                    return [4, knex.raw(sqltext)];
-                                case 2:
-                                    result = _a.sent();
-                                    columns = [];
-                                    for (k in result[0]) {
-                                        if (result[0] && result[0][k] !== undefined) {
-                                            columns.push({ header: k, key: k, width: 10 });
-                                        }
+var run = function () { return __awaiter(_this, void 0, void 0, function () {
+    var tablename, knex, data, options, workbook, createSheet, err_1;
+    var _this = this;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                tablename = 'tags';
+                knex = dbUtils_1.createSqlite('./mydb.sqlite');
+                return [4, dbUtils_1.generateTable(knex, tablename)];
+            case 1:
+                _a.sent();
+                return [4, extractFileData_1.extractFileData('./data.csv')];
+            case 2:
+                data = _a.sent();
+                return [4, dbUtils_1.importData(knex, tablename, data)];
+            case 3:
+                _a.sent();
+                options = {
+                    filename: './streamed-workbook.xlsx'
+                };
+                workbook = new Excel.stream.xlsx.WorkbookWriter(options);
+                createSheet = function (sheetName, sqlfile, workbook) { return __awaiter(_this, void 0, void 0, function () {
+                    var worksheet_1, sqltext, result, columns, k, err_2;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 3, , 4]);
+                                worksheet_1 = workbook.addWorksheet(sheetName);
+                                return [4, utils_1.readFile((path.resolve(sqlfile)))];
+                            case 1:
+                                sqltext = _a.sent();
+                                return [4, knex.raw(sqltext)];
+                            case 2:
+                                result = _a.sent();
+                                columns = [];
+                                for (k in result[0]) {
+                                    if (result[0] && result[0][k] !== undefined) {
+                                        columns.push({ header: k, key: k, width: 10 });
                                     }
-                                    worksheet_1.columns = columns;
-                                    result.forEach(function (element) {
-                                        worksheet_1.addRow(element);
-                                    });
-                                    worksheet_1.commit();
-                                    utils_1.consoleLog('yellow', 'worksheet created:' + sheetName);
-                                    return [3, 4];
-                                case 3:
-                                    err_1 = _a.sent();
-                                    utils_1.consoleError(err_1);
-                                    return [3, 4];
-                                case 4: return [2];
-                            }
-                        });
-                    }); };
-                    return [4, createSheet('Status', './sql/status_be.sql', workbook)];
-                case 4:
-                    _a.sent();
-                    return [4, createSheet('A & B missing cable type', './sql/code_AB_BE_missingtype.sql', workbook)];
-                case 5:
-                    _a.sent();
-                    return [4, createSheet('A & B cable summary', './sql/cabletypes_BE.sql', workbook)];
-                case 6:
-                    _a.sent();
-                    return [4, createSheet('All errors', './sql/report_cables.sql', workbook)];
-                case 7:
-                    _a.sent();
-                    return [4, workbook.commit()];
-                case 8:
-                    _a.sent();
-                    utils_1.consoleLog('yellow', 'workbook updated');
-                    return [2];
-            }
-        });
-    }); };
-    run();
-}
-catch (err) {
-    utils_1.consoleError(err);
-}
+                                }
+                                worksheet_1.columns = columns;
+                                result.forEach(function (element) {
+                                    worksheet_1.addRow(element);
+                                });
+                                worksheet_1.commit();
+                                utils_1.consoleLog('yellow', 'worksheet created:' + sheetName);
+                                return [3, 4];
+                            case 3:
+                                err_2 = _a.sent();
+                                utils_1.consoleError(err_2);
+                                return [3, 4];
+                            case 4: return [2];
+                        }
+                    });
+                }); };
+                return [4, createSheet('Status', './sql/status_be.sql', workbook)];
+            case 4:
+                _a.sent();
+                return [4, createSheet('A & B missing cable type', './sql/code_AB_BE_missingtype.sql', workbook)];
+            case 5:
+                _a.sent();
+                return [4, createSheet('A & B cable summary', './sql/cabletypes_BE.sql', workbook)];
+            case 6:
+                _a.sent();
+                return [4, createSheet('All errors', './sql/report_cables.sql', workbook)];
+            case 7:
+                _a.sent();
+                _a.label = 8;
+            case 8:
+                _a.trys.push([8, 10, , 11]);
+                return [4, workbook.commit()];
+            case 9:
+                _a.sent();
+                return [3, 11];
+            case 10:
+                err_1 = _a.sent();
+                utils_1.consoleError(err_1);
+                return [3, 11];
+            case 11:
+                utils_1.consoleLog('yellow', 'workbook updated');
+                process.exit();
+                return [2];
+        }
+    });
+}); };
+run();
 //# sourceMappingURL=index.js.map

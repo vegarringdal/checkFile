@@ -4,65 +4,66 @@ import * as Excel from 'exceljs';
 import { consoleLog, readFile, consoleError } from './utils';
 import * as path from 'path';
 
-try {
-    const run = async () => {
 
-        const tablename = 'tags';
-        const knex = createSqlite('./mydb.sqlite');
+const run = async () => {
 
-        await generateTable(knex, tablename);
+    const tablename = 'tags';
+    const knex = createSqlite('./mydb.sqlite');
 
-        const data = await extractFileData('./data.csv');
-        await importData(knex, tablename, data);
+    await generateTable(knex, tablename);
 
-        const options = {
-            filename: './streamed-workbook.xlsx'
-        };
-        const workbook = new Excel.stream.xlsx.WorkbookWriter(options);
+    const data = await extractFileData('./data.csv');
+    await importData(knex, tablename, data);
 
-        // excel helper
-        const createSheet = async (sheetName: string, sqlfile: string, workbook: Excel.stream.xlsx.WorkbookWriter) => {
+    const options = {
+        filename: './streamed-workbook.xlsx'
+    };
+    const workbook = new Excel.stream.xlsx.WorkbookWriter(options);
 
-            try {
-                const worksheet = workbook.addWorksheet(sheetName);
-                const sqltext = await readFile((path.resolve(sqlfile)));
-                const result = await knex.raw(sqltext);
+    // excel helper
+    const createSheet = async (sheetName: string, sqlfile: string, workbook: Excel.stream.xlsx.WorkbookWriter) => {
 
-                // generate columns
-                const columns = [];
-                for (const k in result[0]) {
-                    if (result[0] && result[0][k] !== undefined) {
-                        columns.push({ header: k, key: k, width: 10 });
-                    }
+        try {
+            const worksheet = workbook.addWorksheet(sheetName);
+            const sqltext = await readFile((path.resolve(sqlfile)));
+            const result = await knex.raw(sqltext);
+
+            // generate columns
+            const columns = [];
+            for (const k in result[0]) {
+                if (result[0] && result[0][k] !== undefined) {
+                    columns.push({ header: k, key: k, width: 10 });
                 }
-                worksheet.columns = columns;
-                result.forEach((element: any) => {
-                    worksheet.addRow(element);
-                });
-
-
-
-                worksheet.commit();
-                consoleLog('yellow', 'worksheet created:' + sheetName);
-            } catch (err) {
-                consoleError(err);
             }
-
-        };
-
-        await createSheet('Status', './sql/status_be.sql', workbook);
-        await createSheet('A & B missing cable type', './sql/code_AB_BE_missingtype.sql', workbook);
-        await createSheet('A & B cable summary', './sql/cabletypes_BE.sql', workbook);
-        await createSheet('All errors', './sql/report_cables.sql', workbook);
+            worksheet.columns = columns;
+            result.forEach((element: any) => {
+                worksheet.addRow(element);
+            });
 
 
-        await workbook.commit();
-        consoleLog('yellow', 'workbook updated');
 
+            worksheet.commit();
+            consoleLog('yellow', 'worksheet created:' + sheetName);
+        } catch (err) {
+            consoleError(err);
+        }
 
     };
 
-    run();
-} catch (err) {
-    consoleError(err);
-}
+    await createSheet('Status', './sql/status_be.sql', workbook);
+    await createSheet('A & B missing cable type', './sql/code_AB_BE_missingtype.sql', workbook);
+    await createSheet('A & B cable summary', './sql/cabletypes_BE.sql', workbook);
+    await createSheet('All errors', './sql/report_cables.sql', workbook);
+
+    try {
+        await workbook.commit();
+    } catch (err) {
+        consoleError(err);
+    }
+
+    consoleLog('yellow', 'workbook updated');
+    process.exit();
+
+};
+
+run();
