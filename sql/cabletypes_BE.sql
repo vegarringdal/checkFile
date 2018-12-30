@@ -1,8 +1,8 @@
 select 
-		'Eng code(BE & engcode A,B)' as info,
-		ifnull(tag_cabletype, 'XX') || '-cables' as type,
-		sum(cast(tag_cable_length as real)) as No,
-		'NA' as target
+		'BE code A,B' as Query_Info,
+		ifnull(tag_cabletype, 'missing_type') || '-cables' as Cable_type,
+		sum(cast(tag_cable_length as real)) as Total_meters,
+		'NA' as Target
 	from 
 		tags
 	where 

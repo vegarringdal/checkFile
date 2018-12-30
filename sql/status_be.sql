@@ -3,9 +3,9 @@ WITH RECURSIVE
 all_tags as(
 --------------------------
 	select 
-		'01 Sum all cables' as Status, 
-		count(tag_no) as 'Sum cables',
-		'NA' as target
+		'01. Sum all cables' as Status, 
+		count(tag_no) as 'No_cables',
+		'NA' as Target
 	from 
 		tags 
 ),
@@ -13,7 +13,7 @@ all_tags as(
 contractor_tags as(
 --------------------------
 	select 
-		'02-Contractor- ' || ifnull(tag_contractor, 'XX') || '-cables',
+		'02. Contractor- ' || ifnull(tag_contractor, 'XX') || '-cables',
 		count(tag_no) as No,
 		CASE (tag_contractor)
 		WHEN "BE" THEN "NA"
@@ -28,10 +28,20 @@ contractor_tags as(
 		tag_contractor
 ),
 --------------------------
+be_tags as(
+--------------------------
+	select 
+		*
+	from 
+		tags 
+	where 
+		tag_contractor = 'BE'
+),
+--------------------------
 be_tags_sub_Con as(
 --------------------------
 	select 
-		'03.-Eng code(BE)- ' || ifnull(tag_eng_code, 'XX') || '-cables',
+		'03. Eng code(BE)- ' || ifnull(tag_eng_code, 'XX') || '-cables',
 		count(tag_no) as No,
 		CASE 
 			(tag_eng_code)
@@ -39,9 +49,7 @@ be_tags_sub_Con as(
   		ELSE "NA"
   		END
 	from 
-		tags
-	where 
-		tag_contractor = 'BE'
+		be_tags
 	GROUP by 
 		tag_eng_code
 ),
@@ -51,15 +59,13 @@ be_tags_sub_ABC as(
 	select 
 		*
 	from 
-		tags
+		be_tags
 	where 
-		tag_contractor = 'BE' 
-	and 
-		( tag_eng_code = 'A' 
+		tag_eng_code = 'A' 
 		or 
 		tag_eng_code = 'B' 
 		or 
-		tag_eng_code = 'C')
+		tag_eng_code = 'C'
 ),
 --------------------------
 be_tags_sub_AB as(
@@ -67,19 +73,17 @@ be_tags_sub_AB as(
 	select 
 		*
 	from 
-		tags
+		be_tags
 	where 
-		tag_contractor = 'BE' 
-	and 
-		( tag_eng_code = 'A' 
+		tag_eng_code = 'A' 
 		or 
-		tag_eng_code = 'B')
+		tag_eng_code = 'B'
 ),
 --------------------------
 be_tags_from_tag as(
 --------------------------
 	select 
-		'04 BE (A, B, C) missing - "from tag"',
+		'04. BE (A, B, C) missing - "from tag"',
 		count(tag_no),
 		'0' as target
 	from 
@@ -91,7 +95,7 @@ be_tags_from_tag as(
 be_tags_to_tag as(
 --------------------------
 	select 
-		'05 BE (A, B, C) missing - "to tag"',
+		'05. BE (A, B, C) missing - "to tag"',
 		count(tag_no),
 		'0' as target
 	from 
@@ -104,7 +108,7 @@ be_tags_to_tag as(
 be_tags_segreation as(
 --------------------------
 	select 
-		'06 BE (A, B, C) missing - "segregation"',
+		'06. BE (A, B, C) missing - "segregation"',
 		count(tag_no),
 		'0' as target
 	from 
@@ -117,7 +121,7 @@ be_tags_segreation as(
 be_tags_cable1 as(
 --------------------------
 	select 
-		'07 BE (A, B, C) missing - "cabletype STID"',
+		'07. BE (A, B, C) missing - "cabletype STID"',
 		count(tag_no),
 		'0' as target
 	from 
@@ -130,7 +134,7 @@ be_tags_cable1 as(
 be_tags_cable2 as(
 --------------------------
 	select 
-		'08 BE (A, B) missing - "cabletype STID"',
+		'08. BE (A, B) missing - "cabletype STID"',
 		count(tag_no),
 		'0' as target
 	from 
@@ -143,7 +147,7 @@ be_tags_cable2 as(
 be_tags_disiplin1 as(
 --------------------------
 	select 
-		'09 BE (A, B, C) missing - "disciplin"',
+		'09. BE (A, B, C) missing - "disciplin"',
 		count(tag_no),
 		'0' as target
 	from 
@@ -156,7 +160,7 @@ be_tags_disiplin1 as(
 be_tags_length1 as(
 --------------------------
 	select 
-		'10 BE (A, B) missing - "length or is 0"',
+		'10. BE (A, B) missing - "length or is 0"',
 		count(tag_no),
 		'0' as target
 	from 

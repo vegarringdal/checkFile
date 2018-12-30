@@ -1,18 +1,22 @@
 select
-    tag_no,
-    ifnull(tag_from_tag, '???') as tag_from_tag,
-    ifnull(tag_to_tag, '???') as tag_to_tag,
-    ifnull(tag_cabletype, '???') as tag_cabletype,
-    ifnull(tag_segregation, '???') as tag_segregation,
-    ifnull(tag_discipline, '???') as tag_discipline,
+    tag_no as Tag_no,
+    ifnull(tag_from_tag, '[todo]') as Tag_from_tag,
+    ifnull(tag_to_tag, '[todo]') as Tag_to_tag,
+    ifnull(tag_cabletype, '[todo]') as Tag_cabletype,
+    ifnull(tag_segregation, '[todo]') as Tag_segregation,
+    ifnull(tag_discipline, '[todo]') as Tag_discipline,
         CASE (tag_eng_code)
-		WHEN "E" THEN "E-???"
+		WHEN "E" THEN "E-[todo]"
   		ELSE tag_eng_code
-  		END as tag_eng_code,
-    ifnull(tag_contractor, '???') as tag_contractor,
-    ifnull(tag_cable_length, '???') as tag_cable_length,
-    ifnull(tag_description, '') as tag_description,
-    ifnull(tag_remark, '') as tag_remark
+  		END as Tag_eng_code,
+    ifnull(tag_contractor, '[todo]') as Tag_contractor,
+        CASE 
+        when tag_cable_length  is null then '[todo]'
+		WHEN (tag_cable_length = "0" and (tag_eng_code = 'A' or tag_eng_code = 'B')) THEN '0-[todo]'
+  		ELSE tag_cable_length
+  		END as Tag_cable_length,
+    ifnull(tag_description, '') as Tag_description,
+    ifnull(tag_remark, '') as Tag_remark
 from
     tags
 where
