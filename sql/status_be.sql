@@ -170,6 +170,17 @@ be_tags_length1 as(
 	or 
 		tag_cable_length = '0'
 	
+),
+--------------------------
+be_tags_length2 as(
+--------------------------
+	select 
+		'11. BE (A, B) - Total length',
+		sum(cast(tag_cable_length as real)),
+		'NA' as target
+	from 
+		be_tags_sub_AB
+
 )
 --------------------------
 select * from all_tags
@@ -190,4 +201,6 @@ select * from be_tags_disiplin1
 UNION
 select * from be_tags_sub_Con
 UNION
-select * from be_tags_length1;
+select * from be_tags_length1
+UNION
+select * from be_tags_length2;

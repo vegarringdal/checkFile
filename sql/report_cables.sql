@@ -4,17 +4,21 @@ select
     ifnull(tag_to_tag, '[todo]') as Tag_to_tag,
     ifnull(tag_cabletype, '[todo]') as Tag_cabletype,
     ifnull(tag_segregation, '[todo]') as Tag_segregation,
-    ifnull(tag_discipline, '[todo]') as Tag_discipline,
-        CASE (tag_eng_code)
+    CASE 
+        when Tag_discipline  is null then '[todo]'
+		WHEN (Tag_discipline != 'E' and Tag_discipline != 'I' and Tag_discipline != 'T') THEN Tag_discipline||'-[todo]'
+  		ELSE Tag_discipline
+  		END as Tag_discipline,
+    CASE (tag_eng_code)
 		WHEN "E" THEN "E-[todo]"
   		ELSE tag_eng_code
   		END as Tag_eng_code,
     ifnull(tag_contractor, '[todo]') as Tag_contractor,
-        CASE 
+    CASE 
         when tag_cable_length  is null then '[todo]'
 		WHEN (tag_cable_length = "0" and (tag_eng_code = 'A' or tag_eng_code = 'B')) THEN '0-[todo]'
   		ELSE tag_cable_length
-  		END as Tag_cable_length,
+  	    END as Tag_cable_length,
     ifnull(tag_description, '') as Tag_description,
     ifnull(tag_remark, '') as Tag_remark
 from
