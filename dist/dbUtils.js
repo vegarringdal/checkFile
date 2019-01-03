@@ -113,12 +113,12 @@ exports.generateTable = function (knex, tablename) {
         });
     }); });
 };
-exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex) { return __awaiter(_this, void 0, void 0, function () {
+exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex, setStyle) { return __awaiter(_this, void 0, void 0, function () {
     var worksheet_1, sqltext, result, columns, k, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                _a.trys.push([0, 4, , 5]);
                 worksheet_1 = workbook.addWorksheet(sheetName);
                 return [4, utils_1.readFile((path.resolve(sqlfile)))];
             case 1:
@@ -129,7 +129,11 @@ exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex) { re
                 columns = [];
                 for (k in result[0]) {
                     if (result[0] && result[0][k] !== undefined) {
-                        columns.push({ header: k, key: k, width: 10 });
+                        columns.push({
+                            header: k,
+                            key: k,
+                            width: 10
+                        });
                     }
                 }
                 worksheet_1.columns = columns;
@@ -146,14 +150,17 @@ exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex) { re
                         column: columns.length
                     }
                 };
-                worksheet_1.commit();
-                utils_1.consoleLog('green', 'worksheet created:' + sheetName);
-                return [3, 4];
+                setStyle(worksheet_1);
+                return [4, worksheet_1.commit()];
             case 3:
+                _a.sent();
+                utils_1.consoleLog('green', 'worksheet created:' + sheetName);
+                return [3, 5];
+            case 4:
                 err_3 = _a.sent();
                 utils_1.consoleError(err_3);
-                return [3, 4];
-            case 4: return [2];
+                return [3, 5];
+            case 5: return [2];
         }
     });
 }); };

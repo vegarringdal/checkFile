@@ -19,7 +19,8 @@ const run = async () => {
     await importData(knex, tablename, data);
 
     const options = {
-        filename: './streamed-workbook.xlsx'
+        filename: './streamed-workbook.xlsx',
+        useStyles: true
     };
     const workbook = new Excel.stream.xlsx.WorkbookWriter(options);
 
@@ -27,25 +28,103 @@ const run = async () => {
         'Status',
         './sql/status.sql',
         workbook,
-        knex);
+        knex,
+        (worksheet: Excel.Worksheet) => {
+            let rowValue = 'St';
+            let toggle = false;
+            worksheet.eachRow(function (row, _rowNumber) {
+
+                // toggle
+                let rowValueTemp = row.values[1];
+                if (rowValueTemp) {
+                    rowValueTemp = rowValueTemp.substring(0, 2);
+                }
+                if (rowValue !== rowValueTemp) {
+                    toggle = toggle ? false : true;
+                }
+                rowValue = rowValueTemp;
+
+
+                row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
+                    cell.border = {
+                        top: { style: 'thin' },
+                        left: { style: 'thin' },
+                        bottom: { style: 'thin' },
+                        right: { style: 'thin' }
+                    };
+                    if (toggle) {
+                        cell.fill = <any>{
+                            type: 'pattern',
+                            pattern: 'solid',
+                            fgColor: { argb: 'FFe6e6e6' }
+                        };
+                    }
+                });
+
+            });
+        });
 
     await queryAndCreateSheet(
         'A & B missing cable type',
         './sql/missingtype.sql',
         workbook,
-        knex);
+        knex,
+        (worksheet: Excel.Worksheet) => {
+            worksheet.eachRow(function (row, _rowNumber) {
+                row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
+                    cell.border = {
+                        top: { style: 'thin' },
+                        left: { style: 'thin' },
+                        bottom: { style: 'thin' },
+                        right: { style: 'thin' }
+                    };
+                });
+            });
+        });
 
     await queryAndCreateSheet(
         'A & B cable summary',
         './sql/cabletypes.sql',
         workbook,
-        knex);
+        knex,
+        (worksheet: Excel.Worksheet) => {
+            worksheet.eachRow(function (row, _rowNumber) {
+                row.eachCell(function (cell, _colNumber) {
+                    cell.border = {
+                        top: { style: 'thin' },
+                        left: { style: 'thin' },
+                        bottom: { style: 'thin' },
+                        right: { style: 'thin' }
+                    };
+                });
+            });
+        });
 
     await queryAndCreateSheet(
         'All errors',
         './sql/report_cables.sql',
         workbook,
-        knex);
+        knex,
+        (worksheet: Excel.Worksheet) => {
+            worksheet.eachRow(function (row, _rowNumber) {
+                row.eachCell(function (cell, _colNumber) {
+                    cell.border = {
+                        top: { style: 'thin' },
+                        left: { style: 'thin' },
+                        bottom: { style: 'thin' },
+                        right: { style: 'thin' }
+                    };
+                    if (cell.value && (cell.value as any).indexOf('[todo]') !== -1) {
+                        cell.fill = <any>{
+                            type: 'pattern',
+                            pattern: 'solid',
+                            fgColor: { argb: 'FF0000' }
+                        };
+                    }
+
+                });
+            });
+        });
 
     try {
         await workbook.commit();

@@ -67,7 +67,12 @@ export const generateTable = (knex: client, tablename: string) => {
 
 
 
-export const queryAndCreateSheet = async (sheetName: string, sqlfile: string, workbook: Excel.stream.xlsx.WorkbookWriter, knex: client) => {
+export const queryAndCreateSheet = async (
+    sheetName: string,
+    sqlfile: string,
+    workbook: Excel.stream.xlsx.WorkbookWriter,
+    knex: client,
+    setStyle: Function) => {
 
     try {
         const worksheet = workbook.addWorksheet(sheetName);
@@ -78,7 +83,14 @@ export const queryAndCreateSheet = async (sheetName: string, sqlfile: string, wo
         const columns = [];
         for (const k in result[0]) {
             if (result[0] && result[0][k] !== undefined) {
-                columns.push({ header: k, key: k, width: 10 });
+                columns.push({
+                    header: k,
+                    key: k,
+                    width: 10/* ,
+                    style: {
+                        font: { name: 'Arial Black' }
+                    } */
+                });
             }
         }
         worksheet.columns = columns;
@@ -97,9 +109,10 @@ export const queryAndCreateSheet = async (sheetName: string, sqlfile: string, wo
             }
         };
 
+        setStyle(worksheet);
 
+        await worksheet.commit();
 
-        worksheet.commit();
         consoleLog('green', 'worksheet created:' + sheetName);
     } catch (err) {
         consoleError(err);

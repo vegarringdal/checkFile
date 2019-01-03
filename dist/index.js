@@ -56,19 +56,88 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
             case 3:
                 _a.sent();
                 options = {
-                    filename: './streamed-workbook.xlsx'
+                    filename: './streamed-workbook.xlsx',
+                    useStyles: true
                 };
                 workbook = new Excel.stream.xlsx.WorkbookWriter(options);
-                return [4, dbUtils_1.queryAndCreateSheet('Status', './sql/status.sql', workbook, knex)];
+                return [4, dbUtils_1.queryAndCreateSheet('Status', './sql/status.sql', workbook, knex, function (worksheet) {
+                        var rowValue = 'St';
+                        var toggle = false;
+                        worksheet.eachRow(function (row, _rowNumber) {
+                            var rowValueTemp = row.values[1];
+                            if (rowValueTemp) {
+                                rowValueTemp = rowValueTemp.substring(0, 2);
+                            }
+                            if (rowValue !== rowValueTemp) {
+                                toggle = toggle ? false : true;
+                            }
+                            rowValue = rowValueTemp;
+                            row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
+                                cell.border = {
+                                    top: { style: 'thin' },
+                                    left: { style: 'thin' },
+                                    bottom: { style: 'thin' },
+                                    right: { style: 'thin' }
+                                };
+                                if (toggle) {
+                                    cell.fill = {
+                                        type: 'pattern',
+                                        pattern: 'solid',
+                                        fgColor: { argb: 'FFe6e6e6' }
+                                    };
+                                }
+                            });
+                        });
+                    })];
             case 4:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('A & B missing cable type', './sql/missingtype.sql', workbook, knex)];
+                return [4, dbUtils_1.queryAndCreateSheet('A & B missing cable type', './sql/missingtype.sql', workbook, knex, function (worksheet) {
+                        worksheet.eachRow(function (row, _rowNumber) {
+                            row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
+                                cell.border = {
+                                    top: { style: 'thin' },
+                                    left: { style: 'thin' },
+                                    bottom: { style: 'thin' },
+                                    right: { style: 'thin' }
+                                };
+                            });
+                        });
+                    })];
             case 5:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('A & B cable summary', './sql/cabletypes.sql', workbook, knex)];
+                return [4, dbUtils_1.queryAndCreateSheet('A & B cable summary', './sql/cabletypes.sql', workbook, knex, function (worksheet) {
+                        worksheet.eachRow(function (row, _rowNumber) {
+                            row.eachCell(function (cell, _colNumber) {
+                                cell.border = {
+                                    top: { style: 'thin' },
+                                    left: { style: 'thin' },
+                                    bottom: { style: 'thin' },
+                                    right: { style: 'thin' }
+                                };
+                            });
+                        });
+                    })];
             case 6:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('All errors', './sql/report_cables.sql', workbook, knex)];
+                return [4, dbUtils_1.queryAndCreateSheet('All errors', './sql/report_cables.sql', workbook, knex, function (worksheet) {
+                        worksheet.eachRow(function (row, _rowNumber) {
+                            row.eachCell(function (cell, _colNumber) {
+                                cell.border = {
+                                    top: { style: 'thin' },
+                                    left: { style: 'thin' },
+                                    bottom: { style: 'thin' },
+                                    right: { style: 'thin' }
+                                };
+                                if (cell.value && cell.value.indexOf('[todo]') !== -1) {
+                                    cell.fill = {
+                                        type: 'pattern',
+                                        pattern: 'solid',
+                                        fgColor: { argb: 'FF0000' }
+                                    };
+                                }
+                            });
+                        });
+                    })];
             case 7:
                 _a.sent();
                 _a.label = 8;
