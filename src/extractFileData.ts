@@ -10,7 +10,9 @@ export const extractFileData = (filePath: string): Promise<any[]> => {
     return new Promise((resolve) => {
 
         readFile(path.resolve(filePath)).then((fileData: string) => {
-
+            if (fileData.charCodeAt(0) === 0xFEFF) {
+                fileData = fileData.substr(1);
+            }
             const result = papa.parse(fileData);
             const fileLines = result.data;
             if (fileLines.length === 0) {

@@ -6,6 +6,9 @@ var papa = require("papaparse");
 exports.extractFileData = function (filePath) {
     return new Promise(function (resolve) {
         utils_1.readFile(path.resolve(filePath)).then(function (fileData) {
+            if (fileData.charCodeAt(0) === 0xFEFF) {
+                fileData = fileData.substr(1);
+            }
             var result = papa.parse(fileData);
             var fileLines = result.data;
             if (fileLines.length === 0) {
