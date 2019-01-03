@@ -37,6 +37,25 @@ exports.writeFile = function (file, data) {
         });
     });
 };
+exports.checkAndRemoveExcelFile = function (file) {
+    return new Promise(function (resolve, reject) {
+        fs.access(path.resolve(file), fs.constants.F_OK, function (err) {
+            if (err) {
+                resolve();
+            }
+            else {
+                fs.unlink(path.resolve(file), function (err) {
+                    if (err) {
+                        reject();
+                    }
+                    else {
+                        resolve();
+                    }
+                });
+            }
+        });
+    });
+};
 exports.print = function (color, comment, error) {
     switch (color) {
         case 'green':

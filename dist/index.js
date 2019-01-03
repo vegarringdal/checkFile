@@ -40,20 +40,32 @@ var dbUtils_1 = require("./dbUtils");
 var Excel = require("exceljs");
 var utils_1 = require("./utils");
 var run = function () { return __awaiter(_this, void 0, void 0, function () {
-    var tablename, knex, data, options, workbook, err_1;
+    var e_1, tablename, knex, data, options, workbook, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4, utils_1.checkAndRemoveExcelFile('./streamed-workbook.xlsx')];
+            case 1:
+                _a.sent();
+                return [3, 3];
+            case 2:
+                e_1 = _a.sent();
+                utils_1.consoleError('close excel file, cant remove file.');
+                utils_1.consoleLog('', 'Quiting!');
+                process.exit(0);
+                return [3, 3];
+            case 3:
                 tablename = 'tags';
                 knex = dbUtils_1.createSqlite('./mydb.sqlite');
                 return [4, dbUtils_1.generateTable(knex, tablename)];
-            case 1:
+            case 4:
                 _a.sent();
                 return [4, extractFileData_1.extractFileData('./data.csv')];
-            case 2:
+            case 5:
                 data = _a.sent();
                 return [4, dbUtils_1.importData(knex, tablename, data)];
-            case 3:
+            case 6:
                 _a.sent();
                 options = {
                     filename: './streamed-workbook.xlsx',
@@ -89,7 +101,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                             });
                         });
                     })];
-            case 4:
+            case 7:
                 _a.sent();
                 return [4, dbUtils_1.queryAndCreateSheet('A & B cable summary', './sql/cabletypes.sql', workbook, knex, function (worksheet) {
                         worksheet.eachRow(function (row, _rowNumber) {
@@ -103,7 +115,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                             });
                         });
                     })];
-            case 5:
+            case 8:
                 _a.sent();
                 return [4, dbUtils_1.queryAndCreateSheet('Cable Details', './sql/report_cables.sql', workbook, knex, function (worksheet) {
                         worksheet.eachRow(function (row, _rowNumber) {
@@ -124,21 +136,22 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                             });
                         });
                     })];
-            case 6:
-                _a.sent();
-                _a.label = 7;
-            case 7:
-                _a.trys.push([7, 9, , 10]);
-                return [4, workbook.commit()];
-            case 8:
-                _a.sent();
-                return [3, 10];
             case 9:
+                _a.sent();
+                _a.label = 10;
+            case 10:
+                _a.trys.push([10, 12, , 13]);
+                return [4, workbook.commit()];
+            case 11:
+                _a.sent();
+                return [3, 13];
+            case 12:
                 err_1 = _a.sent();
                 utils_1.consoleError(err_1);
-                return [3, 10];
-            case 10:
+                return [3, 13];
+            case 13:
                 utils_1.consoleLog('green', 'workbook updated');
+                utils_1.consoleLog('', 'DONE!');
                 process.exit();
                 return [2];
         }

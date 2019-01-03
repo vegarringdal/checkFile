@@ -1,7 +1,7 @@
 import { extractFileData } from './extractFileData';
 import { generateTable, createSqlite, importData, queryAndCreateSheet } from './dbUtils';
 import * as Excel from 'exceljs';
-import { consoleLog, consoleError } from './utils';
+import { consoleLog, consoleError, checkAndRemoveExcelFile } from './utils';
 
 
 
@@ -9,6 +9,14 @@ import { consoleLog, consoleError } from './utils';
 
 
 const run = async () => {
+
+    try {
+        await checkAndRemoveExcelFile('./streamed-workbook.xlsx');
+    } catch (e) {
+        consoleError('close excel file, cant remove file.');
+        consoleLog('', 'Quiting!');
+        process.exit(0);
+    }
 
     const tablename = 'tags';
     const knex = createSqlite('./mydb.sqlite');
@@ -141,6 +149,7 @@ const run = async () => {
     }
 
     consoleLog('green', 'workbook updated');
+    consoleLog('', 'DONE!');
     process.exit();
 
 };

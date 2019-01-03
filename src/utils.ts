@@ -40,6 +40,27 @@ export const writeFile = (file: string, data: string) => {
     });
 };
 
+export const checkAndRemoveExcelFile = (file: string) => {
+    return new Promise((resolve, reject) => {
+        fs.access(path.resolve(file), fs.constants.F_OK, (err) => {
+            if (err) {
+                resolve();
+            } else {
+                // console.log(`${file} ${err ? 'does not exist' : 'exists'}`);
+                fs.unlink(path.resolve(file), (err) => {
+                    // console.log(`${file} ${err ? 'is not writable' : 'is writable'}`);
+                    if (err) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                });
+            }
+
+        });
+    });
+};
+
 export const print = (color: string | undefined | null, comment: string, error?: boolean) => {
     switch (color) {
         case 'green':
