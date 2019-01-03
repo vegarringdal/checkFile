@@ -119,7 +119,11 @@ exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex, setS
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 4, , 5]);
-                worksheet_1 = workbook.addWorksheet(sheetName);
+                worksheet_1 = workbook.addWorksheet(sheetName, {
+                    views: [
+                        { state: 'frozen', ySplit: 1 }
+                    ]
+                });
                 return [4, utils_1.readFile((path.resolve(sqlfile)))];
             case 1:
                 sqltext = _a.sent();
@@ -132,7 +136,10 @@ exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex, setS
                         columns.push({
                             header: k,
                             key: k,
-                            width: 10
+                            width: 10,
+                            style: {
+                                font: { name: 'Calibri Light' }
+                            }
                         });
                     }
                 }
@@ -150,6 +157,7 @@ exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex, setS
                         column: columns.length
                     }
                 };
+                worksheet_1.getRow(1).font = { bold: true };
                 setStyle(worksheet_1);
                 return [4, worksheet_1.commit()];
             case 3:

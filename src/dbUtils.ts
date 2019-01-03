@@ -75,7 +75,11 @@ export const queryAndCreateSheet = async (
     setStyle: Function) => {
 
     try {
-        const worksheet = workbook.addWorksheet(sheetName);
+        const worksheet = workbook.addWorksheet(sheetName, {
+            views: [
+            {state: 'frozen', ySplit: 1}
+            ]
+            });
         const sqltext = await readFile((path.resolve(sqlfile)));
         const result = await knex.raw(sqltext);
 
@@ -86,10 +90,10 @@ export const queryAndCreateSheet = async (
                 columns.push({
                     header: k,
                     key: k,
-                    width: 10/* ,
+                    width: 10 ,
                     style: {
-                        font: { name: 'Arial Black' }
-                    } */
+                        font: { name: 'Calibri Light' }
+                    }
                 });
             }
         }
@@ -108,6 +112,8 @@ export const queryAndCreateSheet = async (
                 column: columns.length
             }
         };
+
+        worksheet.getRow(1).font = { bold: true };
 
         setStyle(worksheet);
 
