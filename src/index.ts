@@ -25,19 +25,19 @@ const run = async () => {
 
     await queryAndCreateSheet(
         'Status',
-        './sql/status_be.sql',
+        './sql/status.sql',
         workbook,
         knex);
 
     await queryAndCreateSheet(
         'A & B missing cable type',
-        './sql/code_AB_BE_missingtype.sql',
+        './sql/missingtype.sql',
         workbook,
         knex);
 
     await queryAndCreateSheet(
         'A & B cable summary',
-        './sql/cabletypes_BE.sql',
+        './sql/cabletypes.sql',
         workbook,
         knex);
 

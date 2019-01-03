@@ -59,13 +59,13 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                     filename: './streamed-workbook.xlsx'
                 };
                 workbook = new Excel.stream.xlsx.WorkbookWriter(options);
-                return [4, dbUtils_1.queryAndCreateSheet('Status', './sql/status_be.sql', workbook, knex)];
+                return [4, dbUtils_1.queryAndCreateSheet('Status', './sql/status.sql', workbook, knex)];
             case 4:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('A & B missing cable type', './sql/code_AB_BE_missingtype.sql', workbook, knex)];
+                return [4, dbUtils_1.queryAndCreateSheet('A & B missing cable type', './sql/missingtype.sql', workbook, knex)];
             case 5:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('A & B cable summary', './sql/cabletypes_BE.sql', workbook, knex)];
+                return [4, dbUtils_1.queryAndCreateSheet('A & B cable summary', './sql/cabletypes.sql', workbook, knex)];
             case 6:
                 _a.sent();
                 return [4, dbUtils_1.queryAndCreateSheet('All errors', './sql/report_cables.sql', workbook, knex)];
