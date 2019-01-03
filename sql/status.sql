@@ -7,7 +7,8 @@ all_tags as(
 		count(tag_no) as 'No_cables',
 		'NA' as Target,
 		ifnull(tag_contractor, 'All') as Contractor,
-		'All' as Discipline
+		'All' as Discipline,
+		'Cable Count' as Groups
 	from 
 		tags 
 ),
@@ -25,7 +26,8 @@ contractor_tags as(
   		ELSE "0"
   		END,
 		'All' as Tag_contractor,
-		'All' as Discipline
+		'All' as Discipline,
+		'Contractor Count' as Groups
 	from 
 		tags
 	GROUP by 
@@ -52,7 +54,8 @@ be_tags_sub_Con as(
   		ELSE "NA"
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		'All' as Discipline
+		'All' as Discipline,
+		'Eng Code Count' as Groups
 	from 
 		be_tags
 	GROUP by 
@@ -70,7 +73,8 @@ be_tags_sub_Dis as(
   		ELSE "NA"
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Disiplin Count' as Groups
 	from 
 		be_tags
 	GROUP by 
@@ -111,7 +115,8 @@ be_tags_from_tag as(
 		count(tag_no),
 		'0' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline
+		ifnull(tag_discipline, 'All') as Discipline,
+		'From tag missing' as Groups
 	from 
 		be_tags_sub_ABC
 	where 
@@ -128,7 +133,8 @@ be_tags_to_tag as(
 		count(tag_no),
 		'0' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline
+		ifnull(tag_discipline, 'All') as Discipline,
+		'To tag missing' as Groups
 	from 
 		be_tags_sub_ABC
 	where 
@@ -146,7 +152,8 @@ be_tags_segreation as(
 		count(tag_no),
 		'0' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Segregation missing' as Groups
 	from 
 		be_tags_sub_ABC
 	where 
@@ -164,7 +171,8 @@ be_tags_cable1 as(
 		count(tag_no),
 		'0' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Cabletype STID missing - Eng Code A, B, C' as Groups
 	from 
 		be_tags_sub_ABC
 	where 
@@ -182,7 +190,8 @@ be_tags_cable2 as(
 		count(tag_no),
 		'0' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Cabletype STID missing - Eng Code A, B' as Groups
 	from 
 		be_tags_sub_AB
 	where 
@@ -200,7 +209,8 @@ be_tags_disiplin1 as(
 		count(tag_no),
 		'0' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Discipline missing - Eng Code A, B, C' as Groups
 	from 
 		be_tags_sub_ABC
 	where 
@@ -217,7 +227,8 @@ be_tags_length1 as(
 		count(tag_no),
 		'0' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Cable length missing - Eng Code A, B' as Groups
 	from 
 		be_tags_sub_AB
 	where 
@@ -237,7 +248,8 @@ be_tags_length2 as(
 		sum(cast(tag_cable_length as real)),
 		'NA' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Cable length sum - Eng Code A, B' as Groups
 	from 
 		be_tags_sub_AB
 	group by

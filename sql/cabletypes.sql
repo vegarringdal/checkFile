@@ -1,5 +1,5 @@
 select 
-		ifnull(tag_contractor, "undefined") as Tag_contractor,
+		ifnull(tag_contractor, "undefined") as Contractor,
 		ifnull(tag_cabletype, 'missing_type') as Cable_type,
 		ifnull(sum(cast(tag_cable_length as real)), 0) as Total_meters,
 		'NA' as Target
