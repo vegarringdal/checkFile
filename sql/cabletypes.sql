@@ -1,7 +1,7 @@
 select 
 		ifnull(tag_contractor, "undefined") as Tag_contractor,
-		ifnull(tag_cabletype, 'missing_type') || '-cables' as Cable_type,
-		sum(cast(tag_cable_length as real)) as Total_meters,
+		ifnull(tag_cabletype, 'missing_type') as Cable_type,
+		ifnull(sum(cast(tag_cable_length as real)), 0) as Total_meters,
 		'NA' as Target
 	from 
 		tags
