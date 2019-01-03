@@ -45,9 +45,8 @@ be_tags_sub_Con as(
 	select 
 		'03. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Eng Code ' || ifnull(tag_eng_code, 'undefined'),
 		count(tag_no) as No,
-		CASE 
-			(tag_eng_code)
-		WHEN "E" THEN "0"
+		CASE
+		WHEN tag_eng_code = "E" or tag_contractor is null THEN "0"
   		ELSE "NA"
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor
@@ -64,7 +63,7 @@ be_tags_sub_Dis as(
 		'04. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Discipline ' || ifnull(tag_discipline, 'undefined'),
 		count(tag_no) as No,
 		CASE 
-		WHEN (tag_discipline != "E" and tag_discipline != "I" and tag_discipline != "T") THEN "0"
+		WHEN (tag_discipline != "E" and tag_discipline != "I" and tag_discipline != "T") or tag_contractor is null THEN "0"
   		ELSE "NA"
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor
