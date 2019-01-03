@@ -109,7 +109,7 @@ const run = async () => {
 
 
     await queryAndCreateSheet(
-        'All errors',
+        'Cable Details',
         './sql/report_cables.sql',
         workbook,
         knex,

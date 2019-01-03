@@ -105,7 +105,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                     })];
             case 5:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('All errors', './sql/report_cables.sql', workbook, knex, function (worksheet) {
+                return [4, dbUtils_1.queryAndCreateSheet('Cable Details', './sql/report_cables.sql', workbook, knex, function (worksheet) {
                         worksheet.eachRow(function (row, _rowNumber) {
                             row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
                                 cell.border = {
