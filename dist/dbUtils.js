@@ -136,6 +136,16 @@ exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex) { re
                 result.forEach(function (element) {
                     worksheet_1.addRow(element);
                 });
+                worksheet_1.autoFilter = {
+                    from: {
+                        row: 1,
+                        column: 1
+                    },
+                    to: {
+                        row: result.length,
+                        column: columns.length
+                    }
+                };
                 worksheet_1.commit();
                 utils_1.consoleLog('green', 'worksheet created:' + sheetName);
                 return [3, 4];

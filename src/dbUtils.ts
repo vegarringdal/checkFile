@@ -86,6 +86,17 @@ export const queryAndCreateSheet = async (sheetName: string, sqlfile: string, wo
             worksheet.addRow(element);
         });
 
+        worksheet.autoFilter = {
+            from: {
+                row: 1,
+                column: 1
+            },
+            to: {
+                row: result.length,
+                column: columns.length
+            }
+        };
+
 
 
         worksheet.commit();
