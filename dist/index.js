@@ -91,7 +91,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                     })];
             case 4:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('A & B missing cable type', './sql/missingtype.sql', workbook, knex, function (worksheet) {
+                return [4, dbUtils_1.queryAndCreateSheet('A & B cable summary', './sql/cabletypes.sql', workbook, knex, function (worksheet) {
                         worksheet.eachRow(function (row, _rowNumber) {
                             row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
                                 cell.border = {
@@ -105,23 +105,9 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                     })];
             case 5:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('A & B cable summary', './sql/cabletypes.sql', workbook, knex, function (worksheet) {
-                        worksheet.eachRow(function (row, _rowNumber) {
-                            row.eachCell(function (cell, _colNumber) {
-                                cell.border = {
-                                    top: { style: 'thin' },
-                                    left: { style: 'thin' },
-                                    bottom: { style: 'thin' },
-                                    right: { style: 'thin' }
-                                };
-                            });
-                        });
-                    })];
-            case 6:
-                _a.sent();
                 return [4, dbUtils_1.queryAndCreateSheet('All errors', './sql/report_cables.sql', workbook, knex, function (worksheet) {
                         worksheet.eachRow(function (row, _rowNumber) {
-                            row.eachCell(function (cell, _colNumber) {
+                            row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
                                 cell.border = {
                                     top: { style: 'thin' },
                                     left: { style: 'thin' },
@@ -138,20 +124,20 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                             });
                         });
                     })];
+            case 6:
+                _a.sent();
+                _a.label = 7;
             case 7:
-                _a.sent();
-                _a.label = 8;
-            case 8:
-                _a.trys.push([8, 10, , 11]);
+                _a.trys.push([7, 9, , 10]);
                 return [4, workbook.commit()];
-            case 9:
+            case 8:
                 _a.sent();
-                return [3, 11];
-            case 10:
+                return [3, 10];
+            case 9:
                 err_1 = _a.sent();
                 utils_1.consoleError(err_1);
-                return [3, 11];
-            case 11:
+                return [3, 10];
+            case 10:
                 utils_1.consoleLog('green', 'workbook updated');
                 process.exit();
                 return [2];

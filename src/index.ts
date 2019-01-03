@@ -24,6 +24,8 @@ const run = async () => {
     };
     const workbook = new Excel.stream.xlsx.WorkbookWriter(options);
 
+
+
     await queryAndCreateSheet(
         'Status',
         './sql/status.sql',
@@ -64,6 +66,8 @@ const run = async () => {
             });
         });
 
+    /*
+    // not needed
     await queryAndCreateSheet(
         'A & B missing cable type',
         './sql/missingtype.sql',
@@ -80,7 +84,9 @@ const run = async () => {
                     };
                 });
             });
-        });
+        }); */
+
+
 
     await queryAndCreateSheet(
         'A & B cable summary',
@@ -89,7 +95,7 @@ const run = async () => {
         knex,
         (worksheet: Excel.Worksheet) => {
             worksheet.eachRow(function (row, _rowNumber) {
-                row.eachCell(function (cell, _colNumber) {
+                row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
                     cell.border = {
                         top: { style: 'thin' },
                         left: { style: 'thin' },
@@ -100,6 +106,8 @@ const run = async () => {
             });
         });
 
+
+
     await queryAndCreateSheet(
         'All errors',
         './sql/report_cables.sql',
@@ -107,7 +115,7 @@ const run = async () => {
         knex,
         (worksheet: Excel.Worksheet) => {
             worksheet.eachRow(function (row, _rowNumber) {
-                row.eachCell(function (cell, _colNumber) {
+                row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
                     cell.border = {
                         top: { style: 'thin' },
                         left: { style: 'thin' },
