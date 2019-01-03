@@ -13,7 +13,7 @@ select
 		WHEN "E" THEN "E-[todo]"
   		ELSE tag_eng_code
   		END as Tag_eng_code,
-    ifnull(tag_contractor, '[todo]') as Tag_contractor,
+    ifnull(tag_contractor, 'ALL') as Tag_contractor,
     CASE 
         when tag_cable_length  is null then '[todo]'
 		WHEN (tag_cable_length = "0" and (tag_eng_code = 'A' or tag_eng_code = 'B')) THEN '0-[todo]'
@@ -25,8 +25,6 @@ select
 from
     tags
 where
-    tag_contractor = 'BE'
-    and
         tag_eng_code <> 'D'
     and (
         tag_cabletype is null
