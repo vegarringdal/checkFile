@@ -32,7 +32,7 @@ select
             and 
             Tag_discipline != 'T'
             )
-        ) then 'YES-[todo]'
+        ) then 'YES'
         else 'NO'
         end as Errors,
     ifnull(tag_from_tag, '[todo]') as Tag_from_tag,
@@ -89,7 +89,7 @@ where
 d_tags as (
 select
     tag_no as Tag_no,
-    'NO-[TBA]' as Errors,
+    'NO' as Errors,
     ifnull(tag_from_tag, '[TBA]') as Tag_from_tag,
     ifnull(tag_to_tag, '[TBA]') as Tag_to_tag,
     ifnull(tag_cabletype, '[TBA]') as Tag_cabletype,
