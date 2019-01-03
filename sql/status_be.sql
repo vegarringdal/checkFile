@@ -7,7 +7,7 @@ all_tags as(
 		count(tag_no) as 'No_cables',
 		'NA' as Target,
 		ifnull(tag_contractor, 'All') as Contractor,
-		'Discipline' as Discipline
+		'All' as Discipline
 	from 
 		tags 
 ),
