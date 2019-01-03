@@ -1,3 +1,5 @@
+/* 
+-- not in use
 select 
 		tag_no as Tag_no,
 		tag_from_tag as Tag_from_tag,
@@ -15,3 +17,4 @@ select
 		or 
 		tag_eng_code = 'B'
 		);
+ */

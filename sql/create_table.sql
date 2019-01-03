@@ -1,3 +1,5 @@
+/* 
+-- not in use
 CREATE TABLE tags (
   project_name text, 
   tag_status text, 
@@ -13,4 +15,4 @@ CREATE TABLE tags (
   tag_eng_code text, 
   tag_contractor text, 
   tag_installer_contractor text
-  );
+  ); */

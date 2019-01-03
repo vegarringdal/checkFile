@@ -40,39 +40,41 @@ var dbUtils_1 = require("./dbUtils");
 var Excel = require("exceljs");
 var utils_1 = require("./utils");
 var run = function () { return __awaiter(_this, void 0, void 0, function () {
-    var e_1, tablename, knex, data, options, workbook, err_1;
+    var excelFilename, e_1, tablename, knex, data, workbook, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4, utils_1.checkAndRemoveExcelFile('./streamed-workbook.xlsx')];
+                excelFilename = './streamed-workbook.xlsx';
+                _a.label = 1;
             case 1:
-                _a.sent();
-                return [3, 3];
+                _a.trys.push([1, 3, , 4]);
+                return [4, utils_1.checkAndRemoveExcelFile(excelFilename)];
             case 2:
+                _a.sent();
+                return [3, 4];
+            case 3:
                 e_1 = _a.sent();
-                utils_1.consoleError('close excel file, cant remove file.');
+                utils_1.consoleError('close excel file, cant remove file: ' + excelFilename);
                 utils_1.consoleLog('', 'Quiting!');
                 process.exit(0);
-                return [3, 3];
-            case 3:
+                return [3, 4];
+            case 4:
                 tablename = 'tags';
                 knex = dbUtils_1.createSqlite('./mydb.sqlite');
                 return [4, dbUtils_1.generateTable(knex, tablename)];
-            case 4:
+            case 5:
                 _a.sent();
                 return [4, extractFileData_1.extractFileData('./data.csv')];
-            case 5:
+            case 6:
                 data = _a.sent();
                 return [4, dbUtils_1.importData(knex, tablename, data)];
-            case 6:
+            case 7:
                 _a.sent();
-                options = {
-                    filename: './streamed-workbook.xlsx',
+                workbook = new Excel.stream.xlsx.WorkbookWriter({
+                    filename: excelFilename,
                     useStyles: true
-                };
-                workbook = new Excel.stream.xlsx.WorkbookWriter(options);
-                return [4, dbUtils_1.queryAndCreateSheet('Status', './sql/status.sql', workbook, knex, function (worksheet) {
+                });
+                return [4, dbUtils_1.queryDBAndCreateExcelSheet('Status', './sql/status.sql', workbook, knex, function (worksheet) {
                         var rowValue = 'St';
                         var toggle = false;
                         worksheet.eachRow(function (row, _rowNumber) {
@@ -101,9 +103,9 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                             });
                         });
                     })];
-            case 7:
+            case 8:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('A & B cable summary', './sql/cabletypes.sql', workbook, knex, function (worksheet) {
+                return [4, dbUtils_1.queryDBAndCreateExcelSheet('A & B cable summary', './sql/cabletypes.sql', workbook, knex, function (worksheet) {
                         worksheet.eachRow(function (row, _rowNumber) {
                             row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
                                 cell.border = {
@@ -115,9 +117,9 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                             });
                         });
                     })];
-            case 8:
+            case 9:
                 _a.sent();
-                return [4, dbUtils_1.queryAndCreateSheet('Cable Details', './sql/report_cables.sql', workbook, knex, function (worksheet) {
+                return [4, dbUtils_1.queryDBAndCreateExcelSheet('Cable Details', './sql/report_cables.sql', workbook, knex, function (worksheet) {
                         worksheet.eachRow(function (row, _rowNumber) {
                             row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
                                 cell.border = {
@@ -136,20 +138,20 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                             });
                         });
                     })];
-            case 9:
-                _a.sent();
-                _a.label = 10;
             case 10:
-                _a.trys.push([10, 12, , 13]);
-                return [4, workbook.commit()];
-            case 11:
                 _a.sent();
-                return [3, 13];
+                _a.label = 11;
+            case 11:
+                _a.trys.push([11, 13, , 14]);
+                return [4, workbook.commit()];
             case 12:
+                _a.sent();
+                return [3, 14];
+            case 13:
                 err_1 = _a.sent();
                 utils_1.consoleError(err_1);
-                return [3, 13];
-            case 13:
+                return [3, 14];
+            case 14:
                 utils_1.consoleLog('green', 'workbook updated');
                 utils_1.consoleLog('', 'DONE!');
                 process.exit();

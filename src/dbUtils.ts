@@ -67,7 +67,7 @@ export const generateTable = (knex: client, tablename: string) => {
 
 
 
-export const queryAndCreateSheet = async (
+export const queryDBAndCreateExcelSheet = async (
     sheetName: string,
     sqlfile: string,
     workbook: Excel.stream.xlsx.WorkbookWriter,

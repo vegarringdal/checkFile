@@ -1,40 +1,53 @@
 import { extractFileData } from './extractFileData';
-import { generateTable, createSqlite, importData, queryAndCreateSheet } from './dbUtils';
+import { generateTable, createSqlite, importData, queryDBAndCreateExcelSheet } from './dbUtils';
 import * as Excel from 'exceljs';
 import { consoleLog, consoleError, checkAndRemoveExcelFile } from './utils';
 
 
-
-// excel helper
-
-
 const run = async () => {
 
+    /**
+     * Check excel file if locked
+     */
+    const excelFilename = './streamed-workbook.xlsx';
     try {
-        await checkAndRemoveExcelFile('./streamed-workbook.xlsx');
+        await checkAndRemoveExcelFile(excelFilename);
     } catch (e) {
-        consoleError('close excel file, cant remove file.');
+        consoleError('close excel file, cant remove file: ' + excelFilename);
         consoleLog('', 'Quiting!');
         process.exit(0);
     }
 
+
+
+    /**
+     * create sqlite database and generate table
+     */
     const tablename = 'tags';
     const knex = createSqlite('./mydb.sqlite');
-
     await generateTable(knex, tablename);
 
+
+
+    /**
+     * extract csv data and dump into database
+     */
     const data = await extractFileData('./data.csv');
     await importData(knex, tablename, data);
 
-    const options = {
-        filename: './streamed-workbook.xlsx',
+
+
+    /**
+     * generate excel file and sheets
+     */
+    const workbook = new Excel.stream.xlsx.WorkbookWriter({
+        filename: excelFilename,
         useStyles: true
-    };
-    const workbook = new Excel.stream.xlsx.WorkbookWriter(options);
+    });
 
 
 
-    await queryAndCreateSheet(
+    await queryDBAndCreateExcelSheet(
         'Status',
         './sql/status.sql',
         workbook,
@@ -96,7 +109,7 @@ const run = async () => {
 
 
 
-    await queryAndCreateSheet(
+    await queryDBAndCreateExcelSheet(
         'A & B cable summary',
         './sql/cabletypes.sql',
         workbook,
@@ -116,7 +129,7 @@ const run = async () => {
 
 
 
-    await queryAndCreateSheet(
+    await queryDBAndCreateExcelSheet(
         'Cable Details',
         './sql/report_cables.sql',
         workbook,
@@ -142,7 +155,9 @@ const run = async () => {
             });
         });
 
+
     try {
+        // need to commit/save data
         await workbook.commit();
     } catch (err) {
         consoleError(err);

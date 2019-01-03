@@ -113,7 +113,7 @@ exports.generateTable = function (knex, tablename) {
         });
     }); });
 };
-exports.queryAndCreateSheet = function (sheetName, sqlfile, workbook, knex, setStyle) { return __awaiter(_this, void 0, void 0, function () {
+exports.queryDBAndCreateExcelSheet = function (sheetName, sqlfile, workbook, knex, setStyle) { return __awaiter(_this, void 0, void 0, function () {
     var worksheet_1, sqltext, result, columns, k, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
