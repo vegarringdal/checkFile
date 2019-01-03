@@ -19,6 +19,7 @@ select
 		WHEN (tag_cable_length = "0" and (tag_eng_code = 'A' or tag_eng_code = 'B')) THEN '0-[todo]'
   		ELSE tag_cable_length
   	    END as Tag_cable_length,
+    ifnull(tag_status, '') as Tag_status,
     ifnull(tag_description, '') as Tag_description,
     ifnull(tag_remark, '') as Tag_remark
 from
