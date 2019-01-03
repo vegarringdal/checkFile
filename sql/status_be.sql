@@ -63,7 +63,7 @@ be_tags_sub_Dis as(
 		'04. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Discipline ' || ifnull(tag_discipline, 'undefined'),
 		count(tag_no) as No,
 		CASE 
-		WHEN (tag_discipline != "E" and tag_discipline != "I" and tag_discipline != "T") or tag_contractor is null THEN "0"
+		WHEN (tag_discipline != "E" and tag_discipline != "I" and tag_discipline != "T") or tag_contractor is null or tag_discipline is null THEN "0"
   		ELSE "NA"
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor
