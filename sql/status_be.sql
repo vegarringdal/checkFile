@@ -3,7 +3,7 @@ WITH RECURSIVE
 all_tags as(
 --------------------------
 	select 
-		'01. All cables [ea]' as Status, 
+		'01. Number of cables- all contractors [ea]' as Status, 
 		count(tag_no) as 'No_cables',
 		'NA' as Target,
 		ifnull(tag_contractor, 'All') as Tag_contractor
