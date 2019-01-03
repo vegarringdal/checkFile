@@ -54,6 +54,21 @@ be_tags_sub_Con as(
 		tag_eng_code
 ),
 --------------------------
+be_tags_sub_Dis as(
+--------------------------
+	select 
+		'04. Discipline(BE)- ' || ifnull(tag_discipline, 'XX'),
+		count(tag_no) as No,
+		CASE 
+		WHEN (tag_discipline != "E" and tag_discipline != "I" and tag_discipline != "T") THEN "0"
+  		ELSE "NA"
+  		END
+	from 
+		be_tags
+	GROUP by 
+		tag_discipline
+),
+--------------------------
 be_tags_sub_ABC as(
 --------------------------
 	select 
@@ -83,71 +98,81 @@ be_tags_sub_AB as(
 be_tags_from_tag as(
 --------------------------
 	select 
-		'04. BE (A, B, C) missing - "from tag"',
+		'05. BE (EngCode: A, B, C)-(Discipline: '|| ifnull(tag_discipline, '?')||') missing - "from tag"',
 		count(tag_no),
 		'0' as target
 	from 
 		be_tags_sub_ABC
 	where 
 		tag_from_tag is null
+	GROUP by 
+		tag_discipline
 ),
 --------------------------
 be_tags_to_tag as(
 --------------------------
 	select 
-		'05. BE (A, B, C) missing - "to tag"',
+		'06. BE (EngCode: A, B, C)-(Discipline: '|| ifnull(tag_discipline, '?')||') missing - "to tag"',
 		count(tag_no),
 		'0' as target
 	from 
 		be_tags_sub_ABC
 	where 
 		tag_to_tag is null
+	GROUP by 
+		tag_discipline
 	
 ),
 --------------------------
 be_tags_segreation as(
 --------------------------
 	select 
-		'06. BE (A, B, C) missing - "segregation"',
+		'07. BE (EngCode: A, B, C)-(Discipline: '|| ifnull(tag_discipline, '?')||') missing - "segregation"',
 		count(tag_no),
 		'0' as target
 	from 
 		be_tags_sub_ABC
 	where 
 		tag_segregation is null
+	GROUP by 
+		tag_discipline
 	
 ),
 --------------------------
 be_tags_cable1 as(
 --------------------------
 	select 
-		'07. BE (A, B, C) missing - "cabletype STID"',
+		'08. BE (EngCode: A, B, C)-(Discipline: '|| ifnull(tag_discipline, '?')||') missing - "cabletype STID"',
 		count(tag_no),
 		'0' as target
 	from 
 		be_tags_sub_ABC
 	where 
 		tag_cabletype is null
+	GROUP by 
+		tag_discipline
 	
 ),
 --------------------------
 be_tags_cable2 as(
 --------------------------
 	select 
-		'08. BE (A, B) missing - "cabletype STID"',
+		'09. BE (EngCode: A, B)-(Discipline: '|| ifnull(tag_discipline, '?')||') missing - "cabletype STID"',
 		count(tag_no),
 		'0' as target
 	from 
 		be_tags_sub_AB
 	where 
 		tag_cabletype is null
+	GROUP by 
+		tag_discipline
 	
 ),
 --------------------------
 be_tags_disiplin1 as(
 --------------------------
 	select 
-		'09. BE (A, B, C) missing - "disciplin"',
+		'10. BE (EngCode: A, B, C) missing - "disciplin"',
 		count(tag_no),
 		'0' as target
 	from 
@@ -160,7 +185,7 @@ be_tags_disiplin1 as(
 be_tags_length1 as(
 --------------------------
 	select 
-		'10. BE (A, B) missing - "length or is 0"',
+		'11. BE (EngCode: A, B)-(Discipline: '|| ifnull(tag_discipline, '?')||') missing - "length or is 0"',
 		count(tag_no),
 		'0' as target
 	from 
@@ -169,13 +194,15 @@ be_tags_length1 as(
 		tag_cable_length is null 
 	or 
 		tag_cable_length = '0'
+	GROUP by 
+		tag_discipline
 	
 ),
 --------------------------
 be_tags_length2 as(
 --------------------------
 	select 
-		'11. BE (A, B) - Total length',
+		'12. BE (A, B) - Total length',
 		sum(cast(tag_cable_length as real)),
 		'NA' as target
 	from 
@@ -198,6 +225,8 @@ UNION
 select * from be_tags_cable2
 UNION
 select * from be_tags_disiplin1
+UNION
+SELECT * from be_tags_sub_Dis
 UNION
 select * from be_tags_sub_Con
 UNION
