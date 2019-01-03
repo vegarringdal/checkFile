@@ -4,11 +4,12 @@ select
 		tag_to_tag as Tag_to_tag,
 		tag_cabletype as Tag_cabletype,
 		tag_discipline as Tag_discipline,
-		tag_eng_code as Tag_eng_code	
+		tag_eng_code as Tag_eng_code,
+		ifnull(tag_contractor, 'undefined') as Tag_contractor
 	from 
 		tags
 	where 
-		tag_contractor = 'BE' and tag_cabletype is null
+		tag_cabletype is null
 	and ( 
 		tag_eng_code = 'A' 
 		or 
