@@ -87,26 +87,6 @@ const run = async () => {
             });
         });
 
-    /*
-    // not needed
-    await queryAndCreateSheet(
-        'A & B missing cable type',
-        './sql/missingtype.sql',
-        workbook,
-        knex,
-        (worksheet: Excel.Worksheet) => {
-            worksheet.eachRow(function (row, _rowNumber) {
-                row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
-                    cell.border = {
-                        top: { style: 'thin' },
-                        left: { style: 'thin' },
-                        bottom: { style: 'thin' },
-                        right: { style: 'thin' }
-                    };
-                });
-            });
-        }); */
-
 
 
     await queryDBAndCreateExcelSheet(
@@ -127,6 +107,47 @@ const run = async () => {
             });
         });
 
+
+    await queryDBAndCreateExcelSheet(
+        'A & B cable summary w-disc',
+        './sql/cabletypes_disc.sql',
+        workbook,
+        knex,
+        (worksheet: Excel.Worksheet) => {
+
+            let rowValue = 'St';
+            let toggle = false;
+            worksheet.eachRow(function (row, _rowNumber) {
+
+                // toggle
+                let rowValueTemp = row.values[3];
+                if (rowValueTemp) {
+                    rowValueTemp = rowValueTemp;
+                }
+                if (rowValue !== rowValueTemp) {
+                    toggle = toggle ? false : true;
+                }
+                rowValue = rowValueTemp;
+
+
+                row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
+                    cell.border = {
+                        top: { style: 'thin' },
+                        left: { style: 'thin' },
+                        bottom: { style: 'thin' },
+                        right: { style: 'thin' }
+                    };
+                    if (toggle) {
+                        cell.fill = <any>{
+                            type: 'pattern',
+                            pattern: 'solid',
+                            fgColor: { argb: 'FFe6e6e6' }
+                        };
+                    }
+                });
+
+            });
+        });
 
 
     await queryDBAndCreateExcelSheet(

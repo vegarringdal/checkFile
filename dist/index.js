@@ -119,6 +119,37 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                     })];
             case 9:
                 _a.sent();
+                return [4, dbUtils_1.queryDBAndCreateExcelSheet('A & B cable summary w-disc', './sql/cabletypes_disc.sql', workbook, knex, function (worksheet) {
+                        var rowValue = 'St';
+                        var toggle = false;
+                        worksheet.eachRow(function (row, _rowNumber) {
+                            var rowValueTemp = row.values[3];
+                            if (rowValueTemp) {
+                                rowValueTemp = rowValueTemp;
+                            }
+                            if (rowValue !== rowValueTemp) {
+                                toggle = toggle ? false : true;
+                            }
+                            rowValue = rowValueTemp;
+                            row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
+                                cell.border = {
+                                    top: { style: 'thin' },
+                                    left: { style: 'thin' },
+                                    bottom: { style: 'thin' },
+                                    right: { style: 'thin' }
+                                };
+                                if (toggle) {
+                                    cell.fill = {
+                                        type: 'pattern',
+                                        pattern: 'solid',
+                                        fgColor: { argb: 'FFe6e6e6' }
+                                    };
+                                }
+                            });
+                        });
+                    })];
+            case 10:
+                _a.sent();
                 return [4, dbUtils_1.queryDBAndCreateExcelSheet('Cable Details', './sql/report_cables.sql', workbook, knex, function (worksheet) {
                         worksheet.eachRow(function (row, _rowNumber) {
                             row.eachCell({ includeEmpty: true }, function (cell, _colNumber) {
@@ -138,20 +169,20 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                             });
                         });
                     })];
-            case 10:
-                _a.sent();
-                _a.label = 11;
             case 11:
-                _a.trys.push([11, 13, , 14]);
-                return [4, workbook.commit()];
-            case 12:
                 _a.sent();
-                return [3, 14];
+                _a.label = 12;
+            case 12:
+                _a.trys.push([12, 14, , 15]);
+                return [4, workbook.commit()];
             case 13:
+                _a.sent();
+                return [3, 15];
+            case 14:
                 err_1 = _a.sent();
                 utils_1.consoleError(err_1);
-                return [3, 14];
-            case 14:
+                return [3, 15];
+            case 15:
                 utils_1.consoleLog('green', 'workbook updated');
                 utils_1.consoleLog('', 'DONE!');
                 process.exit();
