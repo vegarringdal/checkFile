@@ -3,7 +3,7 @@ select
     ifnull(tag_discipline, "undefined") as Discipline,
     ifnull(tag_cabletype, 'missing_type') as Cable_type,
     count(*) as Cables,
-    ifnull(ROUND(AVG(tag_cable_length) ,3), 0) AS "Rounded Avg",
+    ifnull(ROUND(AVG(cast(ifnull(tag_cable_length, 0) as real)) ,3), 0) AS "Rounded Avg",
     ifnull(sum(cast(tag_cable_length as real)), 0) as Total_meters,
     'NA' as Target
 from 
