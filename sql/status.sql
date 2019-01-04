@@ -225,7 +225,10 @@ be_tags_length1 as(
 	select 
 		'11. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cable length missing or 0 meter - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
-		'ERRORS' as target,
+		case 
+		when tag_contractor is null OR tag_discipline is null then 'ERRORS'
+		else 'INFO'
+		end AS TARGET,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cable length missing - Eng Code A, B' as Groups
@@ -246,7 +249,10 @@ be_tags_length2 as(
 	select 
 		'12. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Eng Code: A, B - Total length [m]',
 		sum(cast(tag_cable_length as real)),
-		'INFO' as target,
+		case 
+		when tag_contractor is null OR tag_discipline is null then 'ERRORS'
+		else 'INFO'
+		end AS TARGET,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cable length sum - Eng Code A, B' as Groups
