@@ -5,7 +5,7 @@ all_tags as(
 	select 
 		'01. Number of cables- all contractors [ea]' as Status, 
 		count(tag_no) as 'No_cables',
-		'NA' as Target,
+		'INFO' as Type,
 		ifnull(tag_contractor, 'All') as Contractor,
 		'All' as Discipline,
 		'Cable Count' as Groups
@@ -19,11 +19,11 @@ contractor_tags as(
 		'02. Contractor- ' || ifnull(tag_contractor, 'Contractor undefined'),
 		count(tag_no) as No,
 		CASE (tag_contractor)
-		WHEN "BE" THEN "NA"
-		WHEN "PC" THEN "NA"
-		WHEN "AP" THEN "NA"
-		WHEN "SIB" THEN "NA"
-  		ELSE "0"
+		WHEN "BE" THEN "INFO"
+		WHEN "PC" THEN "INFO"
+		WHEN "AP" THEN "INFO"
+		WHEN "SIB" THEN "INFO"
+  		ELSE "ERRORS"
   		END,
 		'All' as Tag_contractor,
 		'All' as Discipline,
@@ -50,8 +50,8 @@ be_tags_sub_Con as(
 		'03. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Eng Code ' || ifnull(tag_eng_code, 'undefined'),
 		count(tag_no) as No,
 		CASE
-		WHEN tag_eng_code = "E" or tag_contractor is null THEN "0"
-  		ELSE "NA"
+		WHEN tag_eng_code = "E" or tag_contractor is null THEN "ERRORS"
+  		ELSE "INFO"
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		'All' as Discipline,
@@ -69,8 +69,8 @@ be_tags_sub_Dis as(
 		'04. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Discipline ' || ifnull(tag_discipline, 'undefined'),
 		count(tag_no) as No,
 		CASE 
-		WHEN (tag_discipline != "E" and tag_discipline != "I" and tag_discipline != "T") or tag_contractor is null or tag_discipline is null THEN "0"
-  		ELSE "NA"
+		WHEN (tag_discipline != "E" and tag_discipline != "I" and tag_discipline != "T") or tag_contractor is null or tag_discipline is null THEN "ERRORS"
+  		ELSE "INFO"
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
@@ -113,10 +113,10 @@ be_tags_from_tag as(
 	select 
 		'05. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - From tag missing - Eng Code: A, B, C - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
-		'0' as target,
+		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'From tag missing' as Groups
+		'From tag missing - Eng Code A, B, C' as Groups
 	from 
 		be_tags_sub_ABC
 	where 
@@ -131,10 +131,10 @@ be_tags_to_tag as(
 	select 
 		'06. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - To tag missing - Eng Code: A, B, C - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
-		'0' as target,
+		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'To tag missing' as Groups
+		'To tag missing  - Eng Code A, B, C' as Groups
 	from 
 		be_tags_sub_ABC
 	where 
@@ -150,10 +150,10 @@ be_tags_segreation as(
 	select 
 		'07. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Segregation missing - Eng Code: A, B, C - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
-		'0' as target,
+		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Segregation missing' as Groups
+		'Segregation missing - Eng Code A, B, C' as Groups
 	from 
 		be_tags_sub_ABC
 	where 
@@ -169,7 +169,7 @@ be_tags_cable1 as(
 	select 
 		'08. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cabletype STID missing - Eng Code: A, B, C - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
-		'0' as target,
+		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cabletype STID missing - Eng Code A, B, C' as Groups
@@ -188,7 +188,7 @@ be_tags_cable2 as(
 	select 
 		'09. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cabletype STID missing - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
-		'0' as target,
+		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cabletype STID missing - Eng Code A, B' as Groups
@@ -207,7 +207,7 @@ be_tags_disiplin1 as(
 	select 
 		'10. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Discipline missing - Eng Code: A, B, C',
 		count(tag_no),
-		'0' as target,
+		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Discipline missing - Eng Code A, B, C' as Groups
@@ -225,7 +225,7 @@ be_tags_length1 as(
 	select 
 		'11. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cable length missing or 0 meter - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
-		'0' as target,
+		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cable length missing - Eng Code A, B' as Groups
@@ -246,7 +246,7 @@ be_tags_length2 as(
 	select 
 		'12. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Eng Code: A, B - Total length [m]',
 		sum(cast(tag_cable_length as real)),
-		'NA' as target,
+		'INFO' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cable length sum - Eng Code A, B' as Groups
