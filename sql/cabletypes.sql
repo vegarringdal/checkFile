@@ -2,7 +2,7 @@ select
 		ifnull(tag_contractor, "undefined") as Contractor,
 		ifnull(tag_cabletype, 'missing_type') as Cable_type,
 		count(*) as Cables,
-		ifnull(ROUND(AVG(tag_cable_length) ,0), 0) AS "Rounded Avg",
+		ifnull(ROUND(AVG(tag_cable_length) ,3), 0) AS "Rounded Avg",
 		ifnull(sum(cast(tag_cable_length as real)), 0) as Total_meters,
 		'NA' as Target
 	from 
@@ -12,5 +12,5 @@ select
 		or 
 		tag_eng_code = 'B')
 	GROUP by 
-		tag_contractor,
-		tag_cabletype
+		tag_cabletype,
+		tag_contractor
