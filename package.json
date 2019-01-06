@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "checkfile",
   "main": "src/index.js",
-  "author": "vegar ringdal (vegar.ringdal@gmail.com)",
-  "license": "DO NOT USE! PRIVATE!! ",
+  "author": {
+    "name": "Vegar Ringdal",
+    "email": "vegar.ringdal@gmail.com"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/vegarringdal/checkFile/issues"
   },

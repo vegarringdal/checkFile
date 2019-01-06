@@ -1,16 +1,35 @@
 # checkFile
 
-Helper for making reports
+### what is this:
 
-* run `git clone https://github.com/vegarringdal/checkFile`
+Simple tool I use to generate som excel report with data I need on a project.
+Unless you are on same project as me this code wont help you much without some changes. If you plan to work with cvs data and want query the data to  generate excel reports, then it might help you get started.
+
+To make modifications you need to learn about nodejs/typescript/sql
+* [nodejs](https://www.tutorialspoint.com/nodejs/nodejs_introduction.htm)
+* [typescript](https://www.tutorialspoint.com/typescript/)
+* [sqllite](https://www.tutorialspoint.com/sqlite/)
+
+
+### how to use:
+Before using this you need to install [nodejs](https://nodejs.org/en/) v 11.6.0 or higher.
+
+After nodejs is installed, run this in terminal:
+* run `git clone https://github.com/vegarringdal/checkFile` 
+    * if you do not have GIT installed you can download zip file from github, click the green download button
 * run `npm install`
-* add `data.cvs` with with needed headers
+* add `data.cvs` 
+    * with with needed headers (see bottom of readme)
 * run `npm run start`
+    * this generates the excel file.
 
-### developement
-* developement `npm run watch`
+### how to tranform typescript to js:
+* `npm run watch`
+    * code is only updated if there is no errors in typescript.
+    * on every save you get a vaidation if if contains errors.
+    * sql is not validated.
 
-### csv headers
+### csv headers:
 * Project.Name
 * Tag.Status
 * Tag.No
