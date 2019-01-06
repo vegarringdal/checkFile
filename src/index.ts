@@ -57,8 +57,8 @@ const run = async () => {
         workbook,
         knex,
         (worksheet: Excel.Worksheet) => {
-            let rowValue = 'St';
-            let toggle = false;
+            let rowValue = '';
+            let toggle = true;
             worksheet.eachRow(function (row, _rowNumber) {
 
                 // toggle
@@ -119,8 +119,8 @@ const run = async () => {
         knex,
         (worksheet: Excel.Worksheet) => {
 
-            let rowValue = 'St';
-            let toggle = false;
+            let rowValue = '';
+            let toggle = true;
             worksheet.eachRow(function (row, _rowNumber) {
 
                 // toggle

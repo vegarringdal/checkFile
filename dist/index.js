@@ -79,8 +79,8 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                     useStyles: true
                 });
                 return [4, dbUtils_1.queryDBAndCreateExcelSheet('Status', './sql/status.sql', workbook, knex, function (worksheet) {
-                        var rowValue = 'St';
-                        var toggle = false;
+                        var rowValue = '';
+                        var toggle = true;
                         worksheet.eachRow(function (row, _rowNumber) {
                             var rowValueTemp = row.values[1];
                             if (rowValueTemp) {
@@ -124,8 +124,8 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
             case 9:
                 _a.sent();
                 return [4, dbUtils_1.queryDBAndCreateExcelSheet('A & B cable summary w-disc', './sql/cabletypes_disc.sql', workbook, knex, function (worksheet) {
-                        var rowValue = 'St';
-                        var toggle = false;
+                        var rowValue = '';
+                        var toggle = true;
                         worksheet.eachRow(function (row, _rowNumber) {
                             var rowValueTemp = row.values[3];
                             if (rowValueTemp) {
