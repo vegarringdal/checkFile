@@ -19,7 +19,7 @@ Before using this you need to install [nodejs](https://nodejs.org/en/) v 11.6.0 
 
 After nodejs is installed, run this in terminal:
 * run `git clone https://github.com/vegarringdal/checkFile` 
-    * if you do not have GIT installed you can download zip file from github, click the green download button
+    * if you do not have [GIT](https://en.wikipedia.org/wiki/Git) installed you can download zip file from github, click the green download button
 * run `npm install`
 * add `data.cvs` 
     * with with needed headers (see bottom of readme)
