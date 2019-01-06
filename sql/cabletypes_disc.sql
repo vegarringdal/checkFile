@@ -1,5 +1,6 @@
 select 
     ifnull(tag_contractor, 'undefined') as Contractor,
+    ifnull(tag_discipline, 'undefined') as Discipline,
     ifnull(tag_cabletype, 'missing_type') as Cable_type,
     count(*) as Cables,
     ifnull(ROUND(MIN(cast(ifnull(tag_cable_length, 0) as real)) ,3), 0) AS 'Min[m]',
