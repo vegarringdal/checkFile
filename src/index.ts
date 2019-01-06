@@ -11,10 +11,10 @@ const run = async () => {
      */
     const excelFilename = './streamed-workbook.xlsx';
     try {
+        consoleLog('green', 'removing old excel report: ' + excelFilename);
         await checkAndRemoveExcelFile(excelFilename);
     } catch (e) {
         consoleError('close excel file, cant remove file: ' + excelFilename);
-        consoleLog('', 'Quiting!');
         process.exit(0);
     }
 
@@ -24,6 +24,8 @@ const run = async () => {
      * create sqlite database and generate table
      */
     const tablename = 'tags';
+    const sqlliteFile = './mydb.sqlite';
+    consoleLog('green', 'creating/using sqllite: ' + sqlliteFile);
     const knex = createSqlite('./mydb.sqlite');
     await generateTable(knex, tablename);
 
@@ -32,7 +34,9 @@ const run = async () => {
     /**
      * extract csv data and dump into database
      */
-    const data = await extractFileData('./data.csv');
+    const csvfile = './data.csv';
+    consoleLog('green', 'reading csv file: ' + csvfile);
+    const data = await extractFileData(csvfile);
     await importData(knex, tablename, data);
 
 
@@ -184,8 +188,7 @@ const run = async () => {
         consoleError(err);
     }
 
-    consoleLog('green', 'workbook updated');
-    consoleLog('', 'DONE!');
+    consoleLog('green', 'workbook updated!');
     process.exit();
 
 };

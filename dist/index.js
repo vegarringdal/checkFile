@@ -40,7 +40,7 @@ var dbUtils_1 = require("./dbUtils");
 var Excel = require("exceljs");
 var utils_1 = require("./utils");
 var run = function () { return __awaiter(_this, void 0, void 0, function () {
-    var excelFilename, e_1, tablename, knex, data, workbook, err_1;
+    var excelFilename, e_1, tablename, sqlliteFile, knex, csvfile, data, workbook, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -48,6 +48,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
+                utils_1.consoleLog('green', 'removing old excel report: ' + excelFilename);
                 return [4, utils_1.checkAndRemoveExcelFile(excelFilename)];
             case 2:
                 _a.sent();
@@ -55,16 +56,19 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
             case 3:
                 e_1 = _a.sent();
                 utils_1.consoleError('close excel file, cant remove file: ' + excelFilename);
-                utils_1.consoleLog('', 'Quiting!');
                 process.exit(0);
                 return [3, 4];
             case 4:
                 tablename = 'tags';
+                sqlliteFile = './mydb.sqlite';
+                utils_1.consoleLog('green', 'creating/using sqllite: ' + sqlliteFile);
                 knex = dbUtils_1.createSqlite('./mydb.sqlite');
                 return [4, dbUtils_1.generateTable(knex, tablename)];
             case 5:
                 _a.sent();
-                return [4, extractFileData_1.extractFileData('./data.csv')];
+                csvfile = './data.csv';
+                utils_1.consoleLog('green', 'reading csv file: ' + csvfile);
+                return [4, extractFileData_1.extractFileData(csvfile)];
             case 6:
                 data = _a.sent();
                 return [4, dbUtils_1.importData(knex, tablename, data)];
@@ -183,8 +187,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                 utils_1.consoleError(err_1);
                 return [3, 15];
             case 15:
-                utils_1.consoleLog('green', 'workbook updated');
-                utils_1.consoleLog('', 'DONE!');
+                utils_1.consoleLog('green', 'workbook updated!');
                 process.exit();
                 return [2];
         }

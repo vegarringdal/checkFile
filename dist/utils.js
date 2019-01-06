@@ -77,10 +77,10 @@ exports.print = function (color, comment, error) {
             color = '\x1b[37m';
     }
     if (error) {
-        console.error('\x1b[31m', comment);
+        console.error('\x1b[31m', comment + '\x1b[37m');
     }
     else {
-        console.log(color, comment);
+        console.log(color, comment + '\x1b[37m');
     }
 };
 exports.consoleLog = function (color, comment) {

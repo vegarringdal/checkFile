@@ -86,9 +86,9 @@ export const print = (color: string | undefined | null, comment: string, error?:
 
     if (error) {
         // Use red always
-        console.error('\x1b[31m', comment);
+        console.error('\x1b[31m', comment + '\x1b[37m');
     } else {
-        console.log(color, comment);
+        console.log(color, comment + '\x1b[37m');
     }
 };
 
