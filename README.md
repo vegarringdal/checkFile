@@ -10,6 +10,9 @@ To make modifications you need to learn about nodejs/typescript/sql
 * [typescript](https://www.tutorialspoint.com/typescript/)
 * [sqllite](https://www.tutorialspoint.com/sqlite/)
 
+Otger useful tools to know about:
+* [dbeaver](https://dbeaver.io/) free open source [SQL](https://en.wikipedia.org/wiki/SQL) tool.
+* [vscode](https://code.visualstudio.com/) free [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) for typescript.
 
 ### how to use:
 Before using this you need to install [nodejs](https://nodejs.org/en/) v 11.6.0 or higher.
