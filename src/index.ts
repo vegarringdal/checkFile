@@ -83,7 +83,7 @@ const run = async () => {
                         cell.fill = <any>{
                             type: 'pattern',
                             pattern: 'solid',
-                            fgColor: { argb: 'FFe6e6e6' }
+                            fgColor: { argb: 'FFA9A9A9' }
                         };
                     }
                 });
@@ -145,7 +145,7 @@ const run = async () => {
                         cell.fill = <any>{
                             type: 'pattern',
                             pattern: 'solid',
-                            fgColor: { argb: 'FFe6e6e6' }
+                            fgColor: { argb: 'FFA9A9A9' }
                         };
                     }
                 });

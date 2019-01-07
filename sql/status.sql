@@ -8,7 +8,8 @@ all_tags as(
 		'INFO' as Type,
 		ifnull(tag_contractor, 'All') as Contractor,
 		'All' as Discipline,
-		'Cable Count' as Groups
+		'Cable Count' as Groups,
+		'' as 'Comment meeting'
 	from 
 		tags 
 ),
@@ -27,7 +28,8 @@ contractor_tags as(
   		END,
 		'All' as Tag_contractor,
 		'All' as Discipline,
-		'Contractor Count' as Groups
+		'Contractor Count' as Groups,
+		'' as 'Comment meeting'
 	from 
 		tags
 	GROUP by 
@@ -55,7 +57,8 @@ be_tags_sub_Con as(
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		'All' as Discipline,
-		'Eng Code Count' as Groups
+		'Eng Code Count' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags
 	GROUP by 
@@ -74,7 +77,8 @@ be_tags_sub_Dis as(
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Disiplin Count' as Groups
+		'Disiplin Count' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags
 	GROUP by 
@@ -116,7 +120,8 @@ be_tags_from_tag as(
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'From tag missing - Eng Code A, B, C' as Groups
+		'From tag missing - Eng Code A, B, C' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
 	where 
@@ -134,7 +139,8 @@ be_tags_to_tag as(
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'To tag missing  - Eng Code A, B, C' as Groups
+		'To tag missing  - Eng Code A, B, C' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
 	where 
@@ -153,7 +159,8 @@ be_tags_segreation as(
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Segregation missing - Eng Code A, B, C' as Groups
+		'Segregation missing - Eng Code A, B, C' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
 	where 
@@ -172,7 +179,8 @@ be_tags_cable1 as(
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Cabletype STID missing - Eng Code A, B, C' as Groups
+		'Cabletype STID missing - Eng Code A, B, C' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
 	where 
@@ -191,7 +199,8 @@ be_tags_cable2 as(
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Cabletype STID missing - Eng Code A, B' as Groups
+		'Cabletype STID missing - Eng Code A, B' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags_sub_AB
 	where 
@@ -210,7 +219,8 @@ be_tags_disiplin1 as(
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Discipline missing - Eng Code A, B, C' as Groups
+		'Discipline missing - Eng Code A, B, C' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
 	where 
@@ -231,7 +241,8 @@ be_tags_length1 as(
 		end AS TARGET,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Cable length missing - Eng Code A, B' as Groups
+		'Cable length missing - Eng Code A, B' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags_sub_AB
 	where 
@@ -247,19 +258,21 @@ be_tags_length1 as(
 be_tags_length2 as(
 --------------------------
 	select 
-		'12. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Eng Code: A, B - Total length [m]',
-		sum(cast(tag_cable_length as real)),
+		'12. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Eng Code: A, B - - Disc.: '|| ifnull(tag_discipline, '?') || ' - Total length [m]',
+		sum(ifnull(cast(tag_cable_length as real), 0)),
 		case 
 		when tag_contractor is null OR tag_discipline is null then 'ERRORS'
 		else 'INFO'
 		end AS TARGET,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Cable length sum - Eng Code A, B' as Groups
+		'Cable length sum - Eng Code A, B' as Groups,
+		'' as 'Comment meeting'
 	from 
 		be_tags_sub_AB
 	group by
-		tag_contractor
+		tag_contractor,
+		tag_discipline
 
 )
 --------------------------

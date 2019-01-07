@@ -101,7 +101,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                                     cell.fill = {
                                         type: 'pattern',
                                         pattern: 'solid',
-                                        fgColor: { argb: 'FFe6e6e6' }
+                                        fgColor: { argb: 'FFA9A9A9' }
                                     };
                                 }
                             });
@@ -146,7 +146,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                                     cell.fill = {
                                         type: 'pattern',
                                         pattern: 'solid',
-                                        fgColor: { argb: 'FFe6e6e6' }
+                                        fgColor: { argb: 'FFA9A9A9' }
                                     };
                                 }
                             });
