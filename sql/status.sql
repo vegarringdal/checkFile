@@ -19,13 +19,7 @@ contractor_tags as(
 	select 
 		'02. Contractor- ' || ifnull(tag_contractor, 'Contractor undefined'),
 		count(tag_no) as No,
-		CASE (tag_contractor)
-		WHEN "BE" THEN "INFO"
-		WHEN "PC" THEN "INFO"
-		WHEN "AP" THEN "INFO"
-		WHEN "SIB" THEN "INFO"
-  		ELSE "ERRORS"
-  		END,
+		'INFO' as Type,
 		'All' as Tag_contractor,
 		'All' as Discipline,
 		'Contractor Count' as Groups,
@@ -236,7 +230,8 @@ be_tags_length1 as(
 		'11. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cable length missing or 0 meter - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
 		case 
-		when tag_contractor is null OR tag_discipline is null then 'ERRORS'
+		when tag_contractor is null OR tag_discipline is null 
+		OR tag_cable_length = '0' OR tag_cable_length = 0 or tag_cable_length is null then 'ERRORS'
 		else 'INFO'
 		end AS TARGET,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
