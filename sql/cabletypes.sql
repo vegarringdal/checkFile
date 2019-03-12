@@ -1,7 +1,9 @@
 select 
+	ifnull(tag_contractor, 'undefined') ||'-' || ifnull(tag_cabletype, 'missing_type') as vlookup,
 	ifnull(tag_contractor, 'undefined') as Contractor,
 	ifnull(tag_cabletype, 'missing_type') as Cable_type,
 	'' as 'Comment meeting',
+	'' as 'Last Week',
 	count(*) as Cables,
 	ifnull(sum(cast(tag_cable_length as real)), 0) as 'Total[m]',
 	(
@@ -30,8 +32,7 @@ select
 			as 'Missing length[ea]',
 	ifnull(ROUND(MIN(cast(ifnull(tag_cable_length, 0) as real)) ,3), 0) AS 'Min[m]',
 	ifnull(ROUND(AVG(cast(ifnull(tag_cable_length, 0) as real)) ,3), 0) AS 'Avg[m]',
-	ifnull(ROUND(MAX(cast(ifnull(tag_cable_length, 0) as real)) ,3), 0) AS 'Max[m]',
-	ifnull(tag_contractor, 'undefined') ||'-' || ifnull(tag_cabletype, 'missing_type') as vlookup
+	ifnull(ROUND(MAX(cast(ifnull(tag_cable_length, 0) as real)) ,3), 0) AS 'Max[m]'
 from 
 	tags as b
 where 

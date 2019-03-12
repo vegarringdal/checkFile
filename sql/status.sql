@@ -9,6 +9,7 @@ all_tags as(
 		ifnull(tag_contractor, 'All') as Contractor,
 		'All' as Discipline,
 		'Cable Count' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		tags 
@@ -23,6 +24,7 @@ contractor_tags as(
 		'All' as Tag_contractor,
 		'All' as Discipline,
 		'Contractor Count' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		tags
@@ -52,6 +54,7 @@ be_tags_sub_Con as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		'All' as Discipline,
 		'Eng Code Count' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags
@@ -72,6 +75,7 @@ be_tags_sub_Dis as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Disiplin Count' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags
@@ -115,6 +119,7 @@ be_tags_from_tag as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'From tag missing - Eng Code A, B, C' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
@@ -134,6 +139,7 @@ be_tags_to_tag as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'To tag missing  - Eng Code A, B, C' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
@@ -154,6 +160,7 @@ be_tags_segreation as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Segregation missing - Eng Code A, B, C' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
@@ -174,6 +181,7 @@ be_tags_cable1 as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cabletype STID missing - Eng Code A, B, C' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
@@ -194,6 +202,7 @@ be_tags_cable2 as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cabletype STID missing - Eng Code A, B' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags_sub_AB
@@ -214,6 +223,7 @@ be_tags_disiplin1 as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Discipline missing - Eng Code A, B, C' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags_sub_ABC
@@ -237,6 +247,7 @@ be_tags_length1 as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cable length missing - Eng Code A, B' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags_sub_AB
@@ -262,6 +273,7 @@ be_tags_length2 as(
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
 		'Cable length sum - Eng Code A, B' as Groups,
+		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
 		be_tags_sub_AB
