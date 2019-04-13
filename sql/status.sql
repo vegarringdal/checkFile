@@ -234,6 +234,28 @@ be_tags_disiplin1 as(
 	
 ),
 --------------------------
+be_tags_routingstatus as(
+--------------------------
+	select 
+		'13. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cable ' || ifnull(tag_cable_status, 'undefined') || ' - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
+		count(tag_no) as No,
+		CASE 
+		WHEN (tag_cable_status != "RE") or tag_contractor is null or tag_cable_status is null THEN "ERRORS"
+  		ELSE "INFO"
+  		END,
+		ifnull(tag_contractor, 'All') as Tag_contractor,
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Cable status missing - Eng Code A, B' as Groups,
+		'' as 'Last Week',
+		'' as 'Comment meeting'
+	from 
+		be_tags_sub_AB
+	GROUP by 
+		tag_contractor,
+		tag_discipline,
+		tag_cable_status
+),
+--------------------------
 be_tags_length1 as(
 --------------------------
 	select 
@@ -305,4 +327,6 @@ select * from be_tags_sub_Con
 UNION
 select * from be_tags_length1
 UNION
-select * from be_tags_length2;
+select * from be_tags_length2
+UNION
+select * from be_tags_routingstatus;

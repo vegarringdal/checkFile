@@ -16,6 +16,11 @@ exports.columnSetup = [
         colno: -1
     },
     {
+        file: 'Tag.Cable status',
+        db: 'tag_cable_status',
+        colno: -1
+    },
+    {
         file: 'Tag.Discipline',
         db: 'tag_discipline',
         colno: -1

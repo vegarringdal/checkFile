@@ -9,6 +9,8 @@ select
         or
         tag_from_tag is null
         or
+        tag_cable_status is null
+        or
         tag_to_tag is null
         or
         tag_segregation is null
@@ -35,6 +37,10 @@ select
         ) then 'YES'
         else 'NO'
         end as Errors,
+    CASE
+    when Tag_cable_status is null then '[todo]'
+    WHEN (Tag_cable_status != 'RO' and Tag_cable_status != 'RE') THEN Tag_cable_status||'-[todo]'
+    end as Tag_cable_status,
     ifnull(tag_from_tag, '[todo]') as Tag_from_tag,
     ifnull(tag_to_tag, '[todo]') as Tag_to_tag,
     ifnull(tag_cabletype, '[todo]') as Tag_cabletype,
@@ -54,7 +60,9 @@ select
 		WHEN (tag_cable_length = "0" and (tag_eng_code = 'A' or tag_eng_code = 'B')) THEN '0-[todo]'
   		ELSE tag_cable_length
   	    END as Tag_cable_length,
-    ifnull(tag_installer_contractor, '') as Tag_installer_contractor, 
+    CASE
+    when tag_installer_contractor is null then '[todo]'
+    end as Tag_installer_contractor,
     ifnull(tag_status, '') as Tag_status,
     ifnull(tag_description, '') as Tag_description,
     ifnull(tag_remark, '') as Tag_remark
@@ -68,6 +76,10 @@ d_tags as (
 select
     tag_no as Tag_no,
     'NO' as Errors,
+    case
+    when tag_cable_status is null then '[TBA]'
+    WHEN (tag_cable_status != 'RO' and tag_cable_status != 'RE') THEN tag_cable_status||'-[TBA]'
+    end as Tag_cable_status,
     ifnull(tag_from_tag, '[TBA]') as Tag_from_tag,
     ifnull(tag_to_tag, '[TBA]') as Tag_to_tag,
     ifnull(tag_cabletype, '[TBA]') as Tag_cabletype,
@@ -87,7 +99,9 @@ select
 		WHEN (tag_cable_length = "0" and (tag_eng_code = 'A' or tag_eng_code = 'B')) THEN '0-[TBA]'
   		ELSE tag_cable_length
   	    END as Tag_cable_length,
-    ifnull(tag_installer_contractor, '') as Tag_installer_contractor, 
+    CASE
+    when tag_installer_contractor is null then '[TBA]'
+    end as Tag_installer_contractor,
     ifnull(tag_status, '') as Tag_status,
     ifnull(tag_description, '') as Tag_description,
     ifnull(tag_remark, '') as Tag_remark
@@ -101,6 +115,7 @@ null_tags as (
 select
     tag_no as Tag_no,
     'TJA' as Errors,
+    ifnull(tag_cable_status, '[TBA]') as Tag_cable_status,
     ifnull(tag_from_tag, '[TBA]') as Tag_from_tag,
     ifnull(tag_to_tag, '[TBA]') as Tag_to_tag,
     ifnull(tag_cabletype, '[TBA]') as Tag_cabletype,
