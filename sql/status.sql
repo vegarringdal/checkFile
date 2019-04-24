@@ -256,6 +256,48 @@ be_tags_routingstatus as(
 		tag_cable_status
 ),
 --------------------------
+be_tags_PO as(
+--------------------------
+	select 
+		'14. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - PO missing - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
+		count(tag_no),
+		'ERRORS' as target,
+		ifnull(tag_contractor, 'All') as Tag_contractor,
+		ifnull(tag_discipline, 'All') as Discipline,
+		'To tag missing  - Eng Code A, B' as Groups,
+		'' as 'Last Week',
+		'' as 'Comment meeting'
+	from 
+		be_tags_sub_AB
+	where 
+		po_no is null
+	GROUP by 
+		tag_contractor,
+		tag_discipline
+	
+),
+--------------------------
+be_tags_system as(
+--------------------------
+	select 
+		'15. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Tag system - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
+		count(tag_no),
+		'ERRORS' as target,
+		ifnull(tag_contractor, 'All') as Tag_contractor,
+		ifnull(tag_discipline, 'All') as Discipline,
+		'To tag missing  - Eng Code A, B' as Groups,
+		'' as 'Last Week',
+		'' as 'Comment meeting'
+	from 
+		be_tags_sub_AB
+	where 
+		tag_system is null
+	GROUP by 
+		tag_contractor,
+		tag_discipline
+	
+),
+--------------------------
 be_tags_length1 as(
 --------------------------
 	select 
@@ -329,4 +371,8 @@ select * from be_tags_length1
 UNION
 select * from be_tags_length2
 UNION
-select * from be_tags_routingstatus;
+select * from be_tags_routingstatus
+UNION
+select * from be_tags_PO
+UNION
+select * from be_tags_system;
