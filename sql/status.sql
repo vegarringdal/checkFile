@@ -264,7 +264,7 @@ be_tags_PO as(
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'To tag missing  - Eng Code A, B' as Groups,
+		'PO missing  - Eng Code A, B' as Groups,
 		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
@@ -280,12 +280,12 @@ be_tags_PO as(
 be_tags_system as(
 --------------------------
 	select 
-		'15. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Tag system - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
+		'15. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Tag system missing- Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'To tag missing  - Eng Code A, B' as Groups,
+		'Tag system missing  - Eng Code A, B' as Groups,
 		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
