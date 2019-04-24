@@ -65,7 +65,10 @@ select
     end as Tag_installer_contractor,
     ifnull(tag_status, '') as Tag_status,
     ifnull(tag_description, '') as Tag_description,
-    ifnull(tag_remark, '') as Tag_remark
+    ifnull(tag_remark, '') as Tag_remark,
+    ifnull(po_no, '[todo]') as Po_no,
+    ifnull(tag_system, '[todo]') as Tag_system,
+    ifnull(tag_system_description, '[todo]') as Tag_system_description
 from
     tags
 where
@@ -104,7 +107,10 @@ select
     end as Tag_installer_contractor,
     ifnull(tag_status, '') as Tag_status,
     ifnull(tag_description, '') as Tag_description,
-    ifnull(tag_remark, '') as Tag_remark
+    ifnull(tag_remark, '') as Tag_remark,
+    ifnull(po_no, '') as Po_no,
+    ifnull(tag_system, '') as Tag_system,
+    ifnull(tag_system_description, '') as Tag_system_description
 from
     tags
 where
@@ -135,7 +141,10 @@ select
     ifnull(tag_installer_contractor, '') as Tag_installer_contractor, 
     ifnull(tag_status, '') as Tag_status,
     ifnull(tag_description, '') as Tag_description,
-    ifnull(tag_remark, '') as Tag_remark
+    ifnull(tag_remark, '') as Tag_remark,
+    ifnull(po_no, '') as Po_no,
+    ifnull(tag_system, '') as Tag_system,
+    ifnull(tag_system_description, '') as Tag_system_description
 from
     tags
 where

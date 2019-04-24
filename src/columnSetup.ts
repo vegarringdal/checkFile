@@ -22,6 +22,21 @@ export const columnSetup = [
         colno: -1
     },
     {
+        file: 'PO.No',
+        db: 'po_no',
+        colno: -1
+    },
+    {
+        file: 'Tag.System',
+        db: 'tag_system',
+        colno: -1
+    },
+    {
+        file: 'Tag.System.Description',
+        db: 'tag_system_description',
+        colno: -1
+    },
+    {
         file: 'Tag.Discipline',
         db: 'tag_discipline',
         colno: -1

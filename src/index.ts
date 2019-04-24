@@ -23,7 +23,7 @@ const run = async () => {
      * create sqlite database and generate table
      */
     const tablename = 'tags';
-    const sqlliteFile = './mydb2.sqlite';
+    const sqlliteFile = './mydb3.sqlite';
     consoleLog('green', 'creating/using sqllite: ' + sqlliteFile);
     const knex = createSqlite(sqlliteFile);
     await generateTable(knex, tablename);

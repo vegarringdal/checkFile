@@ -60,7 +60,7 @@ var run = function () { return __awaiter(_this, void 0, void 0, function () {
                 return [3, 4];
             case 4:
                 tablename = 'tags';
-                sqlliteFile = './mydb2.sqlite';
+                sqlliteFile = './mydb3.sqlite';
                 utils_1.consoleLog('green', 'creating/using sqllite: ' + sqlliteFile);
                 knex = dbUtils_1.createSqlite(sqlliteFile);
                 return [4, dbUtils_1.generateTable(knex, tablename)];
