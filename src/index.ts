@@ -171,7 +171,7 @@ const run = async () => {
                         cell.fill = <any>{
                             type: 'pattern',
                             pattern: 'solid',
-                            fgColor: { argb: 'FF0000' }
+                            fgColor: { argb: 'FF9999' }
                         };
                     }
 
