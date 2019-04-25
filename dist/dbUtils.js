@@ -138,7 +138,7 @@ exports.queryDBAndCreateExcelSheet = function (sheetName, sqlfile, workbook, kne
                             key: k,
                             width: 10,
                             style: {
-                                font: { name: 'Calibri Light' }
+                                font: { name: 'Calibri Light', size: 10 }
                             }
                         });
                     }

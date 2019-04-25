@@ -77,9 +77,9 @@ export const queryDBAndCreateExcelSheet = async (
     try {
         const worksheet = workbook.addWorksheet(sheetName, {
             views: [
-            {state: 'frozen', ySplit: 1}
+                { state: 'frozen', ySplit: 1 }
             ]
-            });
+        });
         const sqltext = await readFile((path.resolve(sqlfile)));
         const result = await knex.raw(sqltext);
 
@@ -90,9 +90,9 @@ export const queryDBAndCreateExcelSheet = async (
                 columns.push({
                     header: k,
                     key: k,
-                    width: 10 ,
+                    width: 10,
                     style: {
-                        font: { name: 'Calibri Light' }
+                        font: { name: 'Calibri Light', size: 10 }
                     }
                 });
             }
