@@ -256,6 +256,28 @@ be_tags_routingstatus as(
 		tag_cable_status
 ),
 --------------------------
+be_tags_contractinstaller as(
+--------------------------
+	select 
+		'16. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Installer ' || ifnull(tag_installer_contractor, 'undefined') || ' - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
+		count(tag_no) as No,
+		CASE 
+		WHEN tag_contractor is null or tag_installer_contractor is null THEN "ERRORS"
+  		ELSE "INFO"
+  		END,
+		ifnull(tag_contractor, 'All') as Tag_contractor,
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Installer status - Eng Code A, B' as Groups,
+		'' as 'Last Week',
+		'' as 'Comment meeting'
+	from 
+		be_tags_sub_AB
+	GROUP by 
+		tag_contractor,
+		tag_discipline,
+		tag_installer_contractor
+),
+--------------------------
 be_tags_PO as(
 --------------------------
 	select 
@@ -375,4 +397,6 @@ select * from be_tags_routingstatus
 UNION
 select * from be_tags_PO
 UNION
-select * from be_tags_system;
+select * from be_tags_system
+UNION
+select * from be_tags_contractinstaller;
