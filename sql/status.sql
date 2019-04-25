@@ -63,27 +63,6 @@ be_tags_sub_Con as(
 		tag_eng_code
 ),
 --------------------------
-be_tags_sub_Dis as(
---------------------------
-	select 
-		'04. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Discipline ' || ifnull(tag_discipline, 'undefined'),
-		count(tag_no) as No,
-		CASE 
-		WHEN (tag_discipline != "E" and tag_discipline != "I" and tag_discipline != "T") or tag_contractor is null or tag_discipline is null THEN "ERRORS"
-  		ELSE "INFO"
-  		END,
-		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline,
-		'Disiplin Count' as Groups,
-		'' as 'Last Week',
-		'' as 'Comment meeting'
-	from 
-		be_tags
-	GROUP by 
-		tag_contractor,
-		tag_discipline
-),
---------------------------
 be_tags_sub_ABC as(
 --------------------------
 	select 
@@ -110,19 +89,41 @@ be_tags_sub_AB as(
 		tag_eng_code = 'B'
 ),
 --------------------------
+be_tags_sub_Dis as(
+--------------------------
+	select 
+		'04. '|| ifnull(tag_contractor, 'Contractor undefined') || '- Eng Code: A, B - - Disc: ' || ifnull(tag_discipline, 'undefined'),
+		count(tag_no) as No,
+		CASE 
+		WHEN (tag_discipline != "E" and tag_discipline != "I" and tag_discipline != "T") or tag_contractor is null or tag_discipline is null THEN "ERRORS"
+  		ELSE "INFO"
+  		END,
+		ifnull(tag_contractor, 'All') as Tag_contractor,
+		ifnull(tag_discipline, 'All') as Discipline,
+		'Disiplin Count' as Groups,
+		'' as 'Last Week',
+		'' as 'Comment meeting'
+	from 
+		be_tags_sub_AB
+	GROUP by 
+		tag_contractor,
+		tag_discipline
+),
+
+--------------------------
 be_tags_from_tag as(
 --------------------------
 	select 
-		'05. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - From tag missing - Eng Code: A, B, C - Disc.: '|| ifnull(tag_discipline, '?'),
+		'05. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - From tag missing - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'From tag missing - Eng Code A, B, C' as Groups,
+		'From tag missing - Eng Code A, B' as Groups,
 		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
-		be_tags_sub_ABC
+		be_tags_sub_AB
 	where 
 		tag_from_tag is null
 	GROUP by 
@@ -133,16 +134,16 @@ be_tags_from_tag as(
 be_tags_to_tag as(
 --------------------------
 	select 
-		'06. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - To tag missing - Eng Code: A, B, C - Disc.: '|| ifnull(tag_discipline, '?'),
+		'06. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - To tag missing - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'To tag missing  - Eng Code A, B, C' as Groups,
+		'To tag missing  - Eng Code A, B' as Groups,
 		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
-		be_tags_sub_ABC
+		be_tags_sub_AB
 	where 
 		tag_to_tag is null
 	GROUP by 
@@ -154,16 +155,16 @@ be_tags_to_tag as(
 be_tags_segreation as(
 --------------------------
 	select 
-		'07. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Segregation missing - Eng Code: A, B, C - Disc.: '|| ifnull(tag_discipline, '?'),
+		'07. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Segregation missing - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Segregation missing - Eng Code A, B, C' as Groups,
+		'Segregation missing - Eng Code A, B' as Groups,
 		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
-		be_tags_sub_ABC
+		be_tags_sub_AB
 	where 
 		tag_segregation is null
 	GROUP by 
@@ -175,28 +176,7 @@ be_tags_segreation as(
 be_tags_cable1 as(
 --------------------------
 	select 
-		'08. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cabletype STID missing - Eng Code: A, B, C - Disc.: '|| ifnull(tag_discipline, '?'),
-		count(tag_no),
-		'ERRORS' as target,
-		ifnull(tag_contractor, 'All') as Tag_contractor,
-		ifnull(tag_discipline, 'All') as Discipline,
-		'Cabletype STID missing - Eng Code A, B, C' as Groups,
-		'' as 'Last Week',
-		'' as 'Comment meeting'
-	from 
-		be_tags_sub_ABC
-	where 
-		tag_cabletype is null
-	GROUP by 
-		tag_contractor,
-		tag_discipline
-	
-),
---------------------------
-be_tags_cable2 as(
---------------------------
-	select 
-		'09. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cabletype STID missing - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
+		'08. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cabletype STID missing - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
 		count(tag_no),
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
@@ -214,19 +194,40 @@ be_tags_cable2 as(
 	
 ),
 --------------------------
+-- be_tags_cable2 as(
+--------------------------
+--	select 
+----		'09. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Cabletype STID missing - Eng Code: A, B - Disc.: '|| ifnull(tag_discipline, '?'),
+--		count(tag_no),
+--		'ERRORS' as target,
+--		ifnull(tag_contractor, 'All') as Tag_contractor,
+--		ifnull(tag_discipline, 'All') as Discipline,
+--		'Cabletype STID missing - Eng Code A, B' as Groups,
+--		'' as 'Last Week',
+--		'' as 'Comment meeting'
+----	from 
+--		be_tags_sub_AB
+--	where 
+--		tag_cabletype is null
+--	GROUP by 
+--		tag_contractor,
+--		tag_discipline
+	
+--),
+--------------------------
 be_tags_disiplin1 as(
 --------------------------
 	select 
-		'10. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Discipline missing - Eng Code: A, B, C',
+		'10. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Discipline missing - Eng Code: A, B',
 		count(tag_no),
 		'ERRORS' as target,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
 		ifnull(tag_discipline, 'All') as Discipline,
-		'Discipline missing - Eng Code A, B, C' as Groups,
+		'Discipline missing - Eng Code A, B' as Groups,
 		'' as 'Last Week',
 		'' as 'Comment meeting'
 	from 
-		be_tags_sub_ABC
+		be_tags_sub_AB
 	where 
 		tag_discipline is null
 	group by 
@@ -380,8 +381,8 @@ UNION
 select * from be_tags_segreation
 UNION
 select * from be_tags_cable1
-UNION
-select * from be_tags_cable2
+-- UNION
+-- select * from be_tags_cable2
 UNION
 select * from be_tags_disiplin1
 UNION
