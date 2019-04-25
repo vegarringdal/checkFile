@@ -48,7 +48,7 @@ be_tags_sub_Con as(
 		'03. '|| ifnull(tag_contractor, 'Contractor undefined') || ' - Eng Code ' || ifnull(tag_eng_code, 'undefined'),
 		count(tag_no) as No,
 		CASE
-		WHEN tag_eng_code = "E" or tag_contractor is null THEN "ERRORS"
+		WHEN tag_eng_code = "E" or tag_eng_code = "C" or tag_contractor is null THEN "ERRORS"
   		ELSE "INFO"
   		END,
 		ifnull(tag_contractor, 'All') as Tag_contractor,
