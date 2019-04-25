@@ -49,7 +49,7 @@ select
     CASE
     when Tag_cable_status is null then '[todo]'
     WHEN (Tag_cable_status != 'RO' and Tag_cable_status != 'RE') THEN Tag_cable_status||'-[todo]'
-    when (Tag_cable_status is null) THEN '[todo]'
+    WHEN (Tag_cable_status = 'RO' and Tag_cable_status = 'RE') then Tag_cable_status
     end as Tag_cable_status,
     ifnull(tag_from_tag, '[todo]') as Tag_from_tag,
     ifnull(tag_to_tag, '[todo]') as Tag_to_tag,
@@ -87,11 +87,7 @@ d_tags as (
 select
     tag_no as Tag_no,
     'NO' as Errors,
-    case
-    when tag_cable_status is null then '[TBA]'
-    WHEN (tag_cable_status != 'RO' and tag_cable_status != 'RE') THEN tag_cable_status||'-[TBA]'
-    when (Tag_cable_status is null) THEN '[TBA]'
-    end as Tag_cable_status,
+    ifnull(tag_cable_status, '[TBA]') as Tag_cable_status,
     ifnull(tag_from_tag, '[TBA]') as Tag_from_tag,
     ifnull(tag_to_tag, '[TBA]') as Tag_to_tag,
     ifnull(tag_cabletype, '[TBA]') as Tag_cabletype,
