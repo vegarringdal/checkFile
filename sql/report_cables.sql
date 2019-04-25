@@ -29,7 +29,7 @@ select
         or
         tag_contractor is null
         or (
-            (Tag_cable_status is null or Tag_cable_status != 'RO' and Tag_cable_status != 'RE')
+            (Tag_cable_status is null or Tag_cable_status != 'RO' and Tag_cable_status != 'RE' and Tag_cable_status != 'CR')
         )
         or (
             (tag_cable_length is null or tag_cable_length = '0')
@@ -48,8 +48,8 @@ select
         end as Errors,
     CASE
     when Tag_cable_status is null then '[todo]'
-    WHEN (Tag_cable_status != 'RO' and Tag_cable_status != 'RE') THEN Tag_cable_status||'-[todo]'
-    WHEN (Tag_cable_status = 'RO' and Tag_cable_status = 'RE') then Tag_cable_status
+    WHEN (Tag_cable_status != 'RO' and Tag_cable_status != 'CR' and Tag_cable_status != 'RE') THEN Tag_cable_status||'-[todo]'
+    WHEN (Tag_cable_status = 'RO' and Tag_cable_status = 'CR' and Tag_cable_status = 'RE') then Tag_cable_status
     end as Tag_cable_status,
     ifnull(tag_from_tag, '[todo]') as Tag_from_tag,
     ifnull(tag_to_tag, '[todo]') as Tag_to_tag,
