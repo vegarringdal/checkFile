@@ -21,6 +21,8 @@ select
         or
         tag_eng_code = 'E'
         or
+        tag_eng_code = 'C'
+        or
         tag_installer_contractor is null
         or
         tag_system is null
@@ -47,9 +49,9 @@ select
         else 'NO'
         end as Errors,
     CASE
-    when Tag_cable_status is null then '[todo]'
-    WHEN (Tag_cable_status != 'RO' and Tag_cable_status != 'CR' and Tag_cable_status != 'RE') THEN Tag_cable_status||'-[todo]'
-    WHEN (Tag_cable_status = 'RO' and Tag_cable_status = 'CR' and Tag_cable_status = 'RE') then Tag_cable_status
+    when tag_cable_status is null then '[todo]'
+    WHEN (tag_cable_status != 'RO' and tag_cable_status != 'CR' and tag_cable_status != 'RE') THEN tag_cable_status||'-[todo]'
+    ELSE tag_cable_status
     end as Tag_cable_status,
     ifnull(tag_from_tag, '[todo]') as Tag_from_tag,
     ifnull(tag_to_tag, '[todo]') as Tag_to_tag,
@@ -62,6 +64,7 @@ select
   		END as Tag_discipline,
     CASE (tag_eng_code)
 		WHEN "E" THEN "E-[todo]"
+        WHEN "C" THEN "C-[todo]"
   		ELSE tag_eng_code
   		END as Tag_eng_code,
     ifnull(tag_contractor, '[todo]') as Tag_contractor,
