@@ -21,7 +21,16 @@ select
         or
         tag_eng_code = 'E'
         or
+        tag_installer_contractor is null
+        or
+        tag_system is null
+        or
+        po_no is null
+        or
         tag_contractor is null
+        or (
+            (Tag_cable_status is null or Tag_cable_status != 'RO' and Tag_cable_status != 'RE')
+        )
         or (
             (tag_cable_length is null or tag_cable_length = '0')
             and
@@ -40,6 +49,7 @@ select
     CASE
     when Tag_cable_status is null then '[todo]'
     WHEN (Tag_cable_status != 'RO' and Tag_cable_status != 'RE') THEN Tag_cable_status||'-[todo]'
+    when (Tag_cable_status is null) THEN '[todo]'
     end as Tag_cable_status,
     ifnull(tag_from_tag, '[todo]') as Tag_from_tag,
     ifnull(tag_to_tag, '[todo]') as Tag_to_tag,
@@ -80,6 +90,7 @@ select
     case
     when tag_cable_status is null then '[TBA]'
     WHEN (tag_cable_status != 'RO' and tag_cable_status != 'RE') THEN tag_cable_status||'-[TBA]'
+    when (Tag_cable_status is null) THEN '[TBA]'
     end as Tag_cable_status,
     ifnull(tag_from_tag, '[TBA]') as Tag_from_tag,
     ifnull(tag_to_tag, '[TBA]') as Tag_to_tag,
