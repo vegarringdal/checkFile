@@ -16,8 +16,7 @@
     "url": "git+https://github.com/vegarringdal/checkFile.git"
   },
   "scripts": {
-    "start": "node ./dist/index",
-    "watch": "node ./scripts/watch"
+    "start": "node ./node_modules/typescript/bin/tsc --build && node ./dist/index.js"
   },
   "homepage": "https://github.com/vegarringdal",
   "keywords": [
@@ -27,17 +26,14 @@
     "TypeScript",
     "TsLint"
   ],
-  "devDependencies": {
-    "fuse-box-typechecker": "^2.11.0",
-    "tslib": "^1.9.3",
-    "tslint": "^5.12.0",
-    "typescript": "^3.2.2"
-  },
   "dependencies": {
-    "@types/node": "^10.12.18",
-    "exceljs": "^1.6.3",
-    "papaparse": "^4.6.2",
-    "knex": "^0.16.3",
-    "sqlite3": "^4.0.4"
+    "tslib": "^1.10.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3",
+    "@types/node": "^12.6.1",
+    "exceljs": "^1.13.0",
+    "papaparse": "^5.0.0",
+    "knex": "^0.18.3",
+    "sqlite3": "^4.0.9"
   }
 }

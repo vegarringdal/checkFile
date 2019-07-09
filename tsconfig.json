@@ -16,6 +16,8 @@
     "noImplicitThis": false,
     "noUnusedLocals": true,
     "allowUnreachableCode": false,
+    "incremental": true, /* Enable incremental compilation */
+    "tsBuildInfoFile": "./dist/compilation.info", 
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
